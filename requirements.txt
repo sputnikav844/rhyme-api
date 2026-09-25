@@ -1,0 +1,3 @@
+fastapi
+uvicorn[standard]
+git+https://github.com/Zaki-kek/phonetic-rhyme.git
