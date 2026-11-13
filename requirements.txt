@@ -2,4 +2,4 @@ fastapi>=0.110,<1
 uvicorn[standard]>=0.27,<1
 pydantic>=2.6,<3
 git+https://github.com/Zaki-kek/phonetic-rhyme.git
-stressonnx>=0.2
+stressonnx>=0.0.2
