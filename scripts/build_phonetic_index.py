@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_WORDLIST = ROOT / "data" / "ru_RU.txt.gz"
 DEFAULT_OUTPUT = ROOT / "data" / "phonetic_index.json.gz"
 VOWELS = set("аеёиоуыэюя")
-BUILD_ALGORITHM = "sorted-unique-wordforms-gzip-mtime0-v1"
+BUILD_ALGORITHM = "sorted-unique-syllable-order-gzip-mtime0-v2"
 
 
 def normalize_key(key: str) -> str:
@@ -68,8 +68,13 @@ def build(wordlist: Path, output: Path) -> dict:
             exact[key].add(word)
             near[tail_key(key)].add(word)
 
-    exact_index = {key: sorted(words) for key, words in sorted(exact.items())}
-    near_index = {key: sorted(words) for key, words in sorted(near.items())}
+    word_order = lambda word: (sum(char in VOWELS for char in word), word)
+    exact_index = {
+        key: sorted(words, key=word_order) for key, words in sorted(exact.items())
+    }
+    near_index = {
+        key: sorted(words, key=word_order) for key, words in sorted(near.items())
+    }
     unique_wordforms = sum(len(words) for words in exact_index.values())
     payload = {
         "schema_version": 1,
