@@ -43,6 +43,7 @@ class SearchRequest(BaseModel):
     word: str = Field(min_length=1, max_length=100)
     limit: int = Field(default=10, ge=1, le=50)
     candidates: list[str] | None = Field(default=None, max_length=5000)
+    stress: int | None = Field(default=None, ge=0)
     strict: bool = True
 
 
@@ -200,7 +201,7 @@ def check_pair(data: RhymeRequest):
     same_key = result["key1"] == result["key2"]
     return {
         **result,
-        "classification": "exact" if same_key else ("near" if result["rhymes"] else "none"),
+        "classification": "exact" if same_key else ("near" if do_rhyme(data.word1, data.word2) else "none"),
         "confidence": "phonetic-engine",
         "note": "Фонетическая оценка не определяет смысловую и художественную уместность.",
     }
@@ -209,7 +210,7 @@ def check_pair(data: RhymeRequest):
 @app.post("/rhyme/search")
 def search_rhymes(data: SearchRequest):
     target = _clean_word(data.word)
-    target_key = _rhyme_key(target)
+    target_key = _rhyme_key(target, data.stress)
     pool = data.candidates if data.candidates is not None else _wordlist_suffix_index().get(_spelling_bucket_key(target), ())
     results = []
     seen = {target}
@@ -238,6 +239,7 @@ def search_rhymes(data: SearchRequest):
         "word": target,
         "rhyme_key": target_key,
         "count": min(len(results), data.limit),
+        "total_matches": len(results),
         "results": results[:data.limit],
         "source": "request_candidates" if data.candidates is not None else ("full_hunspell_wordforms" if FULL_WORDLIST_PATH.exists() else "bundled_seed_lexicon"),
         "dictionary_size": len(pool),
@@ -276,7 +278,7 @@ def check_lines(data: LinesRequest):
                 pairs.append({
                     "line_a": i + 1, "line_b": j + 1,
                     "word_a": a["ending"], "word_b": b["ending"],
-                    "classification": "exact" if ka == kb else ("near" if rhymes else "none"),
+                    "classification": "exact" if ka == kb else ("near" if (not data.strict and rhymes) else "none"),
                 })
     return {
         "lines": details,
