@@ -5,7 +5,8 @@
     "b": "брат",
     "stress_b": 0,
     "expected": "exact",
-    "reason": "final devoicing and shared stressed tail"
+    "reason": "final devoicing and shared stressed tail",
+    "category": "final_devoicing"
   },
   {
     "a": "кот",
@@ -13,7 +14,8 @@
     "b": "рот",
     "stress_b": 0,
     "expected": "exact",
-    "reason": "same stressed vowel and final consonant"
+    "reason": "same stressed vowel and final consonant",
+    "category": "exact_rhyme"
   },
   {
     "a": "год",
@@ -21,7 +23,8 @@
     "b": "взлёт",
     "stress_b": 0,
     "expected": "exact",
-    "reason": "ё/о stressed-vowel equivalence in phonetic tail"
+    "reason": "ё/о stressed-vowel equivalence in phonetic tail",
+    "category": "yo_e"
   },
   {
     "a": "готова",
@@ -29,7 +32,8 @@
     "b": "какого",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "unstressed reduction and -ого pronunciation"
+    "reason": "unstressed reduction and -ого pronunciation",
+    "category": "vowel_reduction"
   },
   {
     "a": "любовь",
@@ -37,7 +41,8 @@
     "b": "кровь",
     "stress_b": 0,
     "expected": "exact",
-    "reason": "same stressed phonetic ending"
+    "reason": "same stressed phonetic ending",
+    "category": "softness"
   },
   {
     "a": "машина",
@@ -45,7 +50,8 @@
     "b": "пружина",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same multi-syllable stressed ending"
+    "reason": "same multi-syllable stressed ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "дорога",
@@ -53,7 +59,8 @@
     "b": "тревога",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed ending"
+    "reason": "same stressed ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "река",
@@ -61,7 +68,8 @@
     "b": "рука",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final syllable"
+    "reason": "same stressed final syllable",
+    "category": "short_stressed_endings"
   },
   {
     "a": "весна",
@@ -69,7 +77,8 @@
     "b": "страна",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final syllable"
+    "reason": "same stressed final syllable",
+    "category": "short_stressed_endings"
   },
   {
     "a": "снег",
@@ -77,7 +86,8 @@
     "b": "смех",
     "stress_b": 0,
     "expected": "none",
-    "reason": "different final consonants /k/ and /x/"
+    "reason": "different final consonants /k/ and /x/",
+    "category": "consonant_clusters"
   },
   {
     "a": "дом",
@@ -85,7 +95,8 @@
     "b": "кот",
     "stress_b": 0,
     "expected": "none",
-    "reason": "different stressed vowel and coda"
+    "reason": "different stressed vowel and coda",
+    "category": "consonant_clusters"
   },
   {
     "a": "рад",
@@ -93,7 +104,8 @@
     "b": "мир",
     "stress_b": 0,
     "expected": "none",
-    "reason": "different vowel and coda"
+    "reason": "different vowel and coda",
+    "category": "consonant_clusters"
   },
   {
     "a": "кот",
@@ -101,7 +113,8 @@
     "b": "лес",
     "stress_b": 0,
     "expected": "none",
-    "reason": "different phonetic ending"
+    "reason": "different phonetic ending",
+    "category": "negative_control"
   },
   {
     "a": "море",
@@ -109,7 +122,8 @@
     "b": "гора",
     "stress_b": 1,
     "expected": "none",
-    "reason": "different stressed phonetic tails"
+    "reason": "different stressed phonetic tails",
+    "category": "negative_control"
   },
   {
     "a": "машина",
@@ -117,7 +131,8 @@
     "b": "дорога",
     "stress_b": 1,
     "expected": "none",
-    "reason": "different stressed vowels and endings"
+    "reason": "different stressed vowels and endings",
+    "category": "negative_control"
   },
   {
     "a": "любовь",
@@ -125,7 +140,8 @@
     "b": "ответ",
     "stress_b": 1,
     "expected": "none",
-    "reason": "different stressed phonetic tails"
+    "reason": "different stressed phonetic tails",
+    "category": "negative_control"
   },
   {
     "a": "река",
@@ -133,7 +149,8 @@
     "b": "реки",
     "stress_b": 0,
     "expected": "none",
-    "reason": "different stressed vowels /a/ and /e/"
+    "reason": "different stressed vowels /a/ and /e/",
+    "category": "negative_control"
   },
   {
     "a": "снег",
@@ -141,7 +158,8 @@
     "b": "дом",
     "stress_b": 0,
     "expected": "none",
-    "reason": "different phonetic coda"
+    "reason": "different phonetic coda",
+    "category": "consonant_clusters"
   },
   {
     "a": "машина",
@@ -149,7 +167,8 @@
     "b": "пружина",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ина phonetic ending"
+    "reason": "same stressed -ина phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "машина",
@@ -157,7 +176,8 @@
     "b": "картина",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ина phonetic ending"
+    "reason": "same stressed -ина phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "машина",
@@ -165,7 +185,8 @@
     "b": "долина",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ина phonetic ending"
+    "reason": "same stressed -ина phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "машина",
@@ -173,7 +194,8 @@
     "b": "малина",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ина phonetic ending"
+    "reason": "same stressed -ина phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "пружина",
@@ -181,7 +203,8 @@
     "b": "картина",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ина phonetic ending"
+    "reason": "same stressed -ина phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "пружина",
@@ -189,7 +212,8 @@
     "b": "долина",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ина phonetic ending"
+    "reason": "same stressed -ина phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "пружина",
@@ -197,7 +221,8 @@
     "b": "малина",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ина phonetic ending"
+    "reason": "same stressed -ина phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "картина",
@@ -205,7 +230,8 @@
     "b": "долина",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ина phonetic ending"
+    "reason": "same stressed -ина phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "картина",
@@ -213,7 +239,8 @@
     "b": "малина",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ина phonetic ending"
+    "reason": "same stressed -ина phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "долина",
@@ -221,7 +248,8 @@
     "b": "малина",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ина phonetic ending"
+    "reason": "same stressed -ина phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "планета",
@@ -229,7 +257,8 @@
     "b": "комета",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ета phonetic ending"
+    "reason": "same stressed -ета phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "планета",
@@ -237,7 +266,8 @@
     "b": "ракета",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ета phonetic ending"
+    "reason": "same stressed -ета phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "планета",
@@ -245,7 +275,8 @@
     "b": "газета",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ета phonetic ending"
+    "reason": "same stressed -ета phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "планета",
@@ -253,7 +284,8 @@
     "b": "монета",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ета phonetic ending"
+    "reason": "same stressed -ета phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "комета",
@@ -261,7 +293,8 @@
     "b": "ракета",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ета phonetic ending"
+    "reason": "same stressed -ета phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "комета",
@@ -269,7 +302,8 @@
     "b": "газета",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ета phonetic ending"
+    "reason": "same stressed -ета phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "комета",
@@ -277,7 +311,8 @@
     "b": "монета",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ета phonetic ending"
+    "reason": "same stressed -ета phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "ракета",
@@ -285,7 +320,8 @@
     "b": "газета",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ета phonetic ending"
+    "reason": "same stressed -ета phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "ракета",
@@ -293,7 +329,8 @@
     "b": "монета",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ета phonetic ending"
+    "reason": "same stressed -ета phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "газета",
@@ -301,7 +338,8 @@
     "b": "монета",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ета phonetic ending"
+    "reason": "same stressed -ета phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "работа",
@@ -309,7 +347,8 @@
     "b": "забота",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ота phonetic ending"
+    "reason": "same stressed -ота phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "работа",
@@ -317,7 +356,8 @@
     "b": "охота",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ота phonetic ending"
+    "reason": "same stressed -ота phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "работа",
@@ -325,7 +365,8 @@
     "b": "суббота",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ота phonetic ending"
+    "reason": "same stressed -ота phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "работа",
@@ -333,7 +374,8 @@
     "b": "дремота",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ота phonetic ending"
+    "reason": "same stressed -ота phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "забота",
@@ -341,7 +383,8 @@
     "b": "охота",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ота phonetic ending"
+    "reason": "same stressed -ота phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "забота",
@@ -349,7 +392,8 @@
     "b": "суббота",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ота phonetic ending"
+    "reason": "same stressed -ота phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "забота",
@@ -357,7 +401,8 @@
     "b": "дремота",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ота phonetic ending"
+    "reason": "same stressed -ота phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "охота",
@@ -365,7 +410,8 @@
     "b": "суббота",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ота phonetic ending"
+    "reason": "same stressed -ота phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "охота",
@@ -373,7 +419,8 @@
     "b": "дремота",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ота phonetic ending"
+    "reason": "same stressed -ота phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "суббота",
@@ -381,7 +428,8 @@
     "b": "дремота",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ота phonetic ending"
+    "reason": "same stressed -ота phonetic ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "фонарь",
@@ -389,7 +437,8 @@
     "b": "словарь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final -арь ending"
+    "reason": "same stressed final -арь ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "фонарь",
@@ -397,7 +446,8 @@
     "b": "сухарь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final -арь ending"
+    "reason": "same stressed final -арь ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "фонарь",
@@ -405,7 +455,8 @@
     "b": "букварь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final -арь ending"
+    "reason": "same stressed final -арь ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "фонарь",
@@ -413,7 +464,8 @@
     "b": "январь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final -арь ending"
+    "reason": "same stressed final -арь ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "словарь",
@@ -421,7 +473,8 @@
     "b": "сухарь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final -арь ending"
+    "reason": "same stressed final -арь ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "словарь",
@@ -429,7 +482,8 @@
     "b": "букварь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final -арь ending"
+    "reason": "same stressed final -арь ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "словарь",
@@ -437,7 +491,8 @@
     "b": "январь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final -арь ending"
+    "reason": "same stressed final -арь ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "сухарь",
@@ -445,7 +500,8 @@
     "b": "букварь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final -арь ending"
+    "reason": "same stressed final -арь ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "сухарь",
@@ -453,7 +509,8 @@
     "b": "январь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final -арь ending"
+    "reason": "same stressed final -арь ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "букварь",
@@ -461,7 +518,8 @@
     "b": "январь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed final -арь ending"
+    "reason": "same stressed final -арь ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "писать",
@@ -469,7 +527,8 @@
     "b": "сказать",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ать"
+    "reason": "same stressed infinitive ending -ать",
+    "category": "exact_rhyme"
   },
   {
     "a": "писать",
@@ -477,7 +536,8 @@
     "b": "молчать",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ать"
+    "reason": "same stressed infinitive ending -ать",
+    "category": "exact_rhyme"
   },
   {
     "a": "писать",
@@ -485,7 +545,8 @@
     "b": "кричать",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ать"
+    "reason": "same stressed infinitive ending -ать",
+    "category": "exact_rhyme"
   },
   {
     "a": "писать",
@@ -493,7 +554,8 @@
     "b": "звучать",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ать"
+    "reason": "same stressed infinitive ending -ать",
+    "category": "exact_rhyme"
   },
   {
     "a": "сказать",
@@ -501,7 +563,8 @@
     "b": "молчать",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ать"
+    "reason": "same stressed infinitive ending -ать",
+    "category": "exact_rhyme"
   },
   {
     "a": "сказать",
@@ -509,7 +572,8 @@
     "b": "кричать",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ать"
+    "reason": "same stressed infinitive ending -ать",
+    "category": "exact_rhyme"
   },
   {
     "a": "сказать",
@@ -517,7 +581,8 @@
     "b": "звучать",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ать"
+    "reason": "same stressed infinitive ending -ать",
+    "category": "exact_rhyme"
   },
   {
     "a": "молчать",
@@ -525,7 +590,8 @@
     "b": "кричать",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ать"
+    "reason": "same stressed infinitive ending -ать",
+    "category": "exact_rhyme"
   },
   {
     "a": "молчать",
@@ -533,7 +599,8 @@
     "b": "звучать",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ать"
+    "reason": "same stressed infinitive ending -ать",
+    "category": "exact_rhyme"
   },
   {
     "a": "кричать",
@@ -541,7 +608,8 @@
     "b": "звучать",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ать"
+    "reason": "same stressed infinitive ending -ать",
+    "category": "exact_rhyme"
   },
   {
     "a": "лететь",
@@ -549,7 +617,8 @@
     "b": "гореть",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -еть"
+    "reason": "same stressed infinitive ending -еть",
+    "category": "exact_rhyme"
   },
   {
     "a": "лететь",
@@ -557,7 +626,8 @@
     "b": "терпеть",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -еть"
+    "reason": "same stressed infinitive ending -еть",
+    "category": "exact_rhyme"
   },
   {
     "a": "лететь",
@@ -565,7 +635,8 @@
     "b": "шуметь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -еть"
+    "reason": "same stressed infinitive ending -еть",
+    "category": "exact_rhyme"
   },
   {
     "a": "лететь",
@@ -573,7 +644,8 @@
     "b": "звенеть",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -еть"
+    "reason": "same stressed infinitive ending -еть",
+    "category": "exact_rhyme"
   },
   {
     "a": "гореть",
@@ -581,7 +653,8 @@
     "b": "терпеть",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -еть"
+    "reason": "same stressed infinitive ending -еть",
+    "category": "exact_rhyme"
   },
   {
     "a": "гореть",
@@ -589,7 +662,8 @@
     "b": "шуметь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -еть"
+    "reason": "same stressed infinitive ending -еть",
+    "category": "exact_rhyme"
   },
   {
     "a": "гореть",
@@ -597,7 +671,8 @@
     "b": "звенеть",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -еть"
+    "reason": "same stressed infinitive ending -еть",
+    "category": "exact_rhyme"
   },
   {
     "a": "терпеть",
@@ -605,7 +680,8 @@
     "b": "шуметь",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -еть"
+    "reason": "same stressed infinitive ending -еть",
+    "category": "exact_rhyme"
   },
   {
     "a": "терпеть",
@@ -613,7 +689,8 @@
     "b": "звенеть",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -еть"
+    "reason": "same stressed infinitive ending -еть",
+    "category": "exact_rhyme"
   },
   {
     "a": "шуметь",
@@ -621,7 +698,8 @@
     "b": "звенеть",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -еть"
+    "reason": "same stressed infinitive ending -еть",
+    "category": "exact_rhyme"
   },
   {
     "a": "любить",
@@ -629,7 +707,8 @@
     "b": "хранить",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ить"
+    "reason": "same stressed infinitive ending -ить",
+    "category": "exact_rhyme"
   },
   {
     "a": "любить",
@@ -637,7 +716,8 @@
     "b": "ценить",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ить"
+    "reason": "same stressed infinitive ending -ить",
+    "category": "exact_rhyme"
   },
   {
     "a": "любить",
@@ -645,7 +725,8 @@
     "b": "творить",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ить"
+    "reason": "same stressed infinitive ending -ить",
+    "category": "exact_rhyme"
   },
   {
     "a": "любить",
@@ -653,7 +734,8 @@
     "b": "ходить",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ить"
+    "reason": "same stressed infinitive ending -ить",
+    "category": "exact_rhyme"
   },
   {
     "a": "хранить",
@@ -661,7 +743,8 @@
     "b": "ценить",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ить"
+    "reason": "same stressed infinitive ending -ить",
+    "category": "exact_rhyme"
   },
   {
     "a": "хранить",
@@ -669,7 +752,8 @@
     "b": "творить",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ить"
+    "reason": "same stressed infinitive ending -ить",
+    "category": "exact_rhyme"
   },
   {
     "a": "хранить",
@@ -677,7 +761,8 @@
     "b": "ходить",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ить"
+    "reason": "same stressed infinitive ending -ить",
+    "category": "exact_rhyme"
   },
   {
     "a": "ценить",
@@ -685,7 +770,8 @@
     "b": "творить",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ить"
+    "reason": "same stressed infinitive ending -ить",
+    "category": "exact_rhyme"
   },
   {
     "a": "ценить",
@@ -693,7 +779,8 @@
     "b": "ходить",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ить"
+    "reason": "same stressed infinitive ending -ить",
+    "category": "exact_rhyme"
   },
   {
     "a": "творить",
@@ -701,7 +788,8 @@
     "b": "ходить",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed infinitive ending -ить"
+    "reason": "same stressed infinitive ending -ить",
+    "category": "exact_rhyme"
   },
   {
     "a": "сомнение",
@@ -709,7 +797,8 @@
     "b": "волнение",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ение ending"
+    "reason": "same stressed -ение ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "сомнение",
@@ -717,7 +806,8 @@
     "b": "решение",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ение ending"
+    "reason": "same stressed -ение ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "сомнение",
@@ -725,7 +815,8 @@
     "b": "движение",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ение ending"
+    "reason": "same stressed -ение ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "сомнение",
@@ -733,7 +824,8 @@
     "b": "значение",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ение ending"
+    "reason": "same stressed -ение ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "волнение",
@@ -741,7 +833,8 @@
     "b": "решение",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ение ending"
+    "reason": "same stressed -ение ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "волнение",
@@ -749,7 +842,8 @@
     "b": "движение",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ение ending"
+    "reason": "same stressed -ение ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "волнение",
@@ -757,7 +851,8 @@
     "b": "значение",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ение ending"
+    "reason": "same stressed -ение ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "решение",
@@ -765,7 +860,8 @@
     "b": "движение",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ение ending"
+    "reason": "same stressed -ение ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "решение",
@@ -773,7 +869,8 @@
     "b": "значение",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ение ending"
+    "reason": "same stressed -ение ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "движение",
@@ -781,7 +878,8 @@
     "b": "значение",
     "stress_b": 1,
     "expected": "exact",
-    "reason": "same stressed -ение ending"
+    "reason": "same stressed -ение ending",
+    "category": "exact_rhyme"
   },
   {
     "a": "собака",
@@ -789,7 +887,8 @@
     "b": "дорога",
     "stress_b": 1,
     "expected": "none",
-    "reason": "different consonant and vowel sequence after stress"
+    "reason": "different consonant and vowel sequence after stress",
+    "category": "consonant_clusters"
   },
   {
     "a": "молоко",
@@ -797,6 +896,61 @@
     "b": "облако",
     "stress_b": 1,
     "expected": "none",
-    "reason": "different stressed syllables and phonetic endings"
+    "reason": "different stressed syllables and phonetic endings",
+    "category": "negative_control"
+  },
+  {
+    "a": "молодость",
+    "stress_a": 0,
+    "b": "гордость",
+    "stress_b": 0,
+    "expected": "near",
+    "category": "near_rhyme",
+    "reason": "The final three phonemes coincide, while the full stressed tails differ before that shared ending."
+  },
+  {
+    "a": "молодость",
+    "stress_a": 0,
+    "b": "скорость",
+    "stress_b": 0,
+    "expected": "near",
+    "category": "near_rhyme",
+    "reason": "Shared final phonetic sequence after different consonant material in the stressed tail."
+  },
+  {
+    "a": "угол",
+    "stress_a": 0,
+    "b": "уголь",
+    "stress_b": 0,
+    "expected": "none",
+    "category": "softness",
+    "reason": "Final hard л and soft лʲ are distinct phonemes; spelling similarity must not erase softness."
+  },
+  {
+    "a": "лёд",
+    "stress_a": 0,
+    "b": "лет",
+    "stress_b": 0,
+    "expected": "none",
+    "category": "yo_e",
+    "reason": "Stressed ё is /o/ and stressed е is /e/; the stressed vowel contrast prevents an exact rhyme."
+  },
+  {
+    "a": "река",
+    "stress_a": 1,
+    "b": "окно",
+    "stress_b": 1,
+    "expected": "none",
+    "category": "short_stressed_endings",
+    "reason": "Both words have a short stressed-vowel tail, but stressed /a/ and /o/ differ."
+  },
+  {
+    "a": "пруд",
+    "stress_a": 0,
+    "b": "труд",
+    "stress_b": 0,
+    "expected": "exact",
+    "category": "final_devoicing",
+    "reason": "Final д is devoiced to /t/ in both words, leaving the same stressed phonetic tail."
   }
 ]
