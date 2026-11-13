@@ -66,3 +66,11 @@ def test_manual_override_matches_reference_case_and_has_a_citable_source():
     assert override["reason"]
     assert override["source"]
     assert override["reference_url"].startswith("https://gramota.ru/")
+
+
+def test_isolated_accuracy_set_uses_polysyllabic_forms():
+    isolated = [
+        case for case in CASES
+        if not case.get("context") and not case.get("ambiguous")
+    ]
+    assert all(sum(char.lower() in VOWELS for char in case["word"]) >= 2 for case in isolated)
