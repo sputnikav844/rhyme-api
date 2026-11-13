@@ -7,6 +7,7 @@ never presented as certain when the model cannot resolve a word.
 from __future__ import annotations
 
 import gzip
+import json
 import os
 import re
 import unicodedata
@@ -21,6 +22,7 @@ from phonetic_rhyme import do_rhyme, rhyme_key
 APP_DIR = Path(__file__).resolve().parent
 WORDLIST_PATH = Path(os.getenv("RHYME_WORDLIST", APP_DIR / "data" / "rhyme_words.txt"))
 FULL_WORDLIST_PATH = Path(os.getenv("RHYME_FULL_WORDLIST", APP_DIR / "data" / "ru_RU.txt.gz"))
+PHONETIC_INDEX_PATH = Path(os.getenv("RHYME_PHONETIC_INDEX", APP_DIR / "data" / "phonetic_index.json.gz"))
 VOWELS = "аеёиоуыэюя"
 WORD_RE = re.compile(r"[а-яё]+", re.IGNORECASE)
 MARKED_WORD_RE = re.compile(r"(?:[а-яё]\u0301?)+", re.IGNORECASE)
@@ -148,6 +150,22 @@ def _wordlist_suffix_index() -> dict[str, tuple[str, ...]]:
             buckets.setdefault(key, []).append(word)
     return {key: tuple(words) for key, words in buckets.items()}
 
+@lru_cache(maxsize=1)
+def _phonetic_index() -> dict:
+    """Load the offline-built phonetic index without doing work at startup."""
+    if not PHONETIC_INDEX_PATH.exists():
+        return {}
+    with gzip.open(PHONETIC_INDEX_PATH, "rt", encoding="utf-8") as source:
+        index = json.load(source)
+    if index.get("schema_version") != 1:
+        raise RuntimeError("Unsupported phonetic index schema version")
+    return index
+
+
+def _phonetic_tail(key: str, size: int = 3) -> str:
+    parts = [part for part in key.split(".") if part]
+    return ".".join(parts[-size:]) if parts else ""
+
 
 def _rhyme_key(word: str, stress: int | None = None, *, infer: bool = True) -> str:
     # Prefer a model-inferred stress position; otherwise the phonetic library
@@ -211,7 +229,19 @@ def check_pair(data: RhymeRequest):
 def search_rhymes(data: SearchRequest):
     target = _clean_word(data.word)
     target_key = _rhyme_key(target, data.stress)
-    pool = data.candidates if data.candidates is not None else _wordlist_suffix_index().get(_spelling_bucket_key(target), ())
+    index = _phonetic_index() if data.candidates is None else {}
+    if data.candidates is not None:
+        pool = data.candidates
+        source = "request_candidates"
+    elif index:
+        exact_pool = index.get("exact", {}).get(target_key, [])
+        near_pool = [] if data.strict else index.get("near", {}).get(_phonetic_tail(target_key), [])
+        pool = list(dict.fromkeys([*exact_pool, *near_pool]))
+        source = "full_phonetic_index"
+    else:
+        pool = _wordlist_suffix_index().get(_spelling_bucket_key(target), ())
+        source = "full_wordlist_spelling_fallback" if FULL_WORDLIST_PATH.exists() else "bundled_seed_lexicon"
+
     results = []
     seen = {target}
     for raw in pool:
@@ -225,7 +255,8 @@ def search_rhymes(data: SearchRequest):
         try:
             key = _rhyme_key(candidate, infer=False)
             exact = key == target_key
-            if exact or (not data.strict and do_rhyme(target, candidate, loose=True)):
+            near = not exact and not data.strict and _phonetic_tail(key) == _phonetic_tail(target_key)
+            if exact or near:
                 results.append({
                     "word": candidate,
                     "rhyme_key": key,
@@ -241,15 +272,18 @@ def search_rhymes(data: SearchRequest):
         "count": min(len(results), data.limit),
         "total_matches": len(results),
         "results": results[:data.limit],
-        "source": "request_candidates" if data.candidates is not None else ("full_hunspell_wordforms" if FULL_WORDLIST_PATH.exists() else "bundled_seed_lexicon"),
+        "source": source,
         "dictionary_size": len(pool),
+        "index_stats": {
+            "indexed_wordforms": index.get("indexed_wordforms") if index else None,
+            "phonetic_keys": len(index.get("exact", {})) if index else None,
+        },
         "limitations": [
-            "Если полный архив не установлен, используется только небольшой стартовый список.",
-            "Автоматическое ударение зависит от установленного stressonnx и контекста.",
+            "Полный фонетический индекс строится отдельной командой; при его отсутствии используется резервная буквенная индексация.",
+            "Ударение словаря построено по эвристике phonetic-rhyme; неоднозначные слова требуют явного ударения или проверки моделью.",
             "Фонетическое совпадение не гарантирует грамматическую или смысловую уместность.",
         ],
     }
-
 
 @app.post("/rhyme/check-lines")
 def check_lines(data: LinesRequest):
