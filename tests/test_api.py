@@ -281,3 +281,35 @@ def test_index_search_recomputes_keys_only_for_returned_candidates(monkeypatch):
     assert response.status_code == 200
     assert [item["word"] for item in response.json()["results"]] == ["кот"]
     assert calls == ["дом"]
+
+
+
+def test_new_pair_endpoint_rejects_invalid_stress_and_empty_word():
+    assert client.post("/rhyme/check", json={"word1": "", "word2": "рад"}).status_code == 422
+    assert client.post("/rhyme/check", json={"word1": "рад", "word2": "брат", "stress1": -1}).status_code == 422
+
+
+def test_search_endpoint_rejects_invalid_limits_and_candidates():
+    assert client.post("/rhyme/search", json={"word": "рад", "limit": 0}).status_code == 422
+    assert client.post("/rhyme/search", json={"word": "рад", "limit": 51}).status_code == 422
+    assert client.post("/rhyme/search", json={"word": "рад", "candidates": ["слово " * 20]}).status_code == 200
+
+
+def test_lines_endpoint_rejects_invalid_line_counts_and_empty_lines():
+    assert client.post("/rhyme/check-lines", json={"lines": ["одна строка"]}).status_code == 422
+    assert client.post("/rhyme/check-lines", json={"lines": [""] * 17}).status_code == 422
+    response = client.post("/rhyme/check-lines", json={"lines": ["!!!", "???"]})
+    assert response.status_code == 200
+    assert all(item["ending"] is None for item in response.json()["lines"])
+
+
+def test_prosody_endpoint_rejects_empty_and_oversized_text():
+    assert client.post("/prosody/analyze", json={"text": ""}).status_code == 422
+    assert client.post("/prosody/analyze", json={"text": "я" * 5001}).status_code == 422
+
+
+def test_root_endpoint_reports_service_and_version():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json()["service"] == "Russian Rhyme API"
+    assert response.json()["version"] == main.app.version
