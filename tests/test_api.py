@@ -101,3 +101,37 @@ def test_stress_index_and_marked_word_regex():
     marked = "любо́вь"
     assert main._stress_index(marked) == 2
     assert [m.group(0) for m in main.MARKED_WORD_RE.finditer(marked)] == [marked]
+
+
+
+def test_pair_check_classifies_near_rhyme(monkeypatch):
+    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None: word)
+    monkeypatch.setattr(main, "do_rhyme", lambda a, b: True)
+    response = client.post("/rhyme/check", json={"word1": "дом", "word2": "сом"})
+    assert response.status_code == 200
+    assert response.json()["classification"] == "near"
+
+
+def test_line_check_respects_strict_flag(monkeypatch):
+    monkeypatch.setattr(main, "_mark_stress", lambda text: (text, "test"))
+    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None: word)
+    monkeypatch.setattr(main, "_syllables", lambda text: 1)
+    monkeypatch.setattr(main, "do_rhyme", lambda a, b: True)
+    payload = {"lines": ["Первый дом", "Второй сом"]}
+    strict = client.post("/rhyme/check-lines", json={**payload, "strict": True}).json()
+    relaxed = client.post("/rhyme/check-lines", json={**payload, "strict": False}).json()
+    assert strict["pairs"][0]["classification"] == "none"
+    assert relaxed["pairs"][0]["classification"] == "near"
+
+
+def test_search_accepts_explicit_target_stress(monkeypatch):
+    captured = {}
+    def fake_key(word, stress=None, **kwargs):
+        captured["stress"] = stress
+        return "target" if word == "любовь" else "other"
+    monkeypatch.setattr(main, "_rhyme_key", fake_key)
+    response = client.post("/rhyme/search", json={
+        "word": "любовь", "stress": 1, "candidates": []
+    })
+    assert response.status_code == 200
+    assert captured["stress"] == 1
