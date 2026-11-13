@@ -64,12 +64,23 @@ Not included in v1.0:
 
 ## Current status (2026-11-13)
 
+- **Gate 2 — Phonetic quality: complete.** The curated rhyme corpus contains
+  116 explicitly stressed and explained pairs: 93 exact, 8 near and 15 negative.
+  The pair and line endpoints share one exact/near/none classifier, and line
+  checks use the stress mark from the complete line when available.
+- The CI workflow passed on the Gate 2 completion commit: 31 tests passed and
+  the separate evaluator classified all 116 curated cases correctly (116/116).
+  This is a regression-corpus result, not a claim of 100% general Russian rhyme
+  accuracy.
+- The legacy `POST /rhyme` schema, phonetic-key generation and `do_rhyme`
+  boolean semantics were compared with `main` and restored without changing
+  `main`.
 - Full dictionary/index build has completed in CI: 2,342,711 wordforms,
   2,211 exact phonetic keys and 1,673 near buckets.
 - Stress override for `начался` is integrated and covered by unit tests.
-- Latest test workflow passed after fixing combining-acute escaping.
-- Gates 1–5 are not yet all complete; in particular the rhyme and stress
-  regression corpora still need expansion and the final release checklist remains.
+- **Next: Gate 3 — Stress quality.** The stress corpus and evaluator still need
+  expansion to at least 100 reviewed forms, raw-model and post-override metrics,
+  and explicit ambiguity handling. Gates 1, 4 and 5 remain open.
 
 ## Safety boundary
 
