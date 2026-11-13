@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - feature/full-russian-rhyme-engine
-    paths:
-      - "scripts/evaluate_stress.py"
-      - "data/stress_quality_cases.json"
-      - "data/stress_overrides.json"
-      - ".github/workflows/stress-evaluation.yml"
-      - "requirements.txt"
 
 jobs:
   stress-evaluation:
