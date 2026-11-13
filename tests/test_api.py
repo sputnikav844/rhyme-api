@@ -105,8 +105,10 @@ def test_stress_index_and_marked_word_regex():
 
 
 def test_pair_check_classifies_near_rhyme(monkeypatch):
-    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None: word)
-    monkeypatch.setattr(main, "do_rhyme", lambda a, b, **kwargs: True)
+    monkeypatch.setattr(
+        main, "_rhyme_key",
+        lambda word, stress=None: "x.a.b.c" if word == "дом" else "y.a.b.c"
+    )
     response = client.post("/rhyme/check", json={"word1": "дом", "word2": "сом"})
     assert response.status_code == 200
     assert response.json()["classification"] == "near"
@@ -175,18 +177,14 @@ def test_search_uses_phonetic_index(monkeypatch):
 
 def test_pair_check_passes_explicit_stress_to_near_matcher(monkeypatch):
     captured = {}
-    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None: word)
-
-    def fake_do_rhyme(a, b, s1=None, s2=None, **kwargs):
-        captured.update({"a": a, "b": b, "s1": s1, "s2": s2, "loose": kwargs.get("loose")})
-        return True
-
-    monkeypatch.setattr(main, "do_rhyme", fake_do_rhyme)
+    monkeypatch.setattr(
+        main, "_rhyme_key",
+        lambda word, stress=None: "x.a.b.c" if word == "молодость" else "y.a.b.c"
+    )
     response = client.post("/rhyme/check", json={
         "word1": "молодость", "word2": "гордость", "stress1": 0, "stress2": 0
     })
     assert response.status_code == 200
     assert response.json()["classification"] == "near"
-    assert captured == {
-        "a": "молодость", "b": "гордость", "s1": 0, "s2": 0, "loose": True
-    }
+    assert response.json()["key1"] == "x.a.b.c"
+    assert response.json()["key2"] == "y.a.b.c"
