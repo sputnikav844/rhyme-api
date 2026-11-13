@@ -17,3 +17,4 @@ jobs:
       - run: python scripts/build_phonetic_index.py
       - run: pytest -q
       - run: python scripts/evaluate_rhyme_quality.py
+      - run: python scripts/evaluate_stress.py
