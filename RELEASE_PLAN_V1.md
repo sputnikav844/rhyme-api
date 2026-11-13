@@ -100,8 +100,9 @@ Not included in v1.0:
   The API rejects stale indexes that lack the required sorted-build algorithm ID,
   preventing incorrect result ordering after an upgrade without an index rebuild.
 - CI benchmark on `ubuntu-latest`: 50 warm requests across five common words
-  and strict/relaxed modes; median 4.30 ms, p95 5.22 ms, max 8.15 ms. Cold first
-  request 2,466.65 ms, including lazy index/model initialization. The CI warm
+  and strict/relaxed modes; median 2.71 ms, p95 3.53 ms, max 6.24 ms. Cold first
+  request 1,938.87 ms, including lazy index/model initialization. The latest run
+  passed 48 tests, both evaluators and the strict/relaxed latency benchmark. The CI warm
   p95 threshold is 1,000 ms.
 - Stress corpus references and evaluation instructions are documented in
   `data/STRESS_CORPUS_SOURCES.md` and README.
