@@ -6,6 +6,7 @@ never presented as certain when the model cannot resolve a word.
 """
 from __future__ import annotations
 
+import gzip
 import os
 import re
 import unicodedata
@@ -19,6 +20,7 @@ from phonetic_rhyme import do_rhyme, rhyme_key
 
 APP_DIR = Path(__file__).resolve().parent
 WORDLIST_PATH = Path(os.getenv("RHYME_WORDLIST", APP_DIR / "data" / "rhyme_words.txt"))
+FULL_WORDLIST_PATH = Path(os.getenv("RHYME_FULL_WORDLIST", APP_DIR / "data" / "ru_RU.txt.gz"))
 VOWELS = "аеёиоуыэюя"
 WORD_RE = re.compile(r"[а-яё]+", re.IGNORECASE)
 
@@ -103,13 +105,19 @@ def _last_word(text: str) -> str | None:
 
 @lru_cache(maxsize=1)
 def _wordlist() -> tuple[str, ...]:
-    if not WORDLIST_PATH.exists():
-        return ()
-    values = []
-    for line in WORDLIST_PATH.read_text(encoding="utf-8").splitlines():
-        word = line.strip().lower()
-        if word and not word.startswith("#") and WORD_RE.fullmatch(word):
-            values.append(word)
+    """Load the verified full word-form list, falling back to the tiny seed list."""
+    values: list[str] = []
+    if FULL_WORDLIST_PATH.exists():
+        with gzip.open(FULL_WORDLIST_PATH, "rt", encoding="utf-8", errors="ignore") as source:
+            for line in source:
+                word = line.strip().lower()
+                if word and WORD_RE.fullmatch(word):
+                    values.append(word)
+    elif WORDLIST_PATH.exists():
+        for line in WORDLIST_PATH.read_text(encoding="utf-8").splitlines():
+            word = line.strip().lower()
+            if word and not word.startswith("#") and WORD_RE.fullmatch(word):
+                values.append(word)
     return tuple(dict.fromkeys(values))
 
 
@@ -204,10 +212,10 @@ def search_rhymes(data: SearchRequest):
         "rhyme_key": target_key,
         "count": min(len(results), data.limit),
         "results": results[:data.limit],
-        "source": "request_candidates" if data.candidates is not None else "bundled_seed_lexicon",
+        "source": "request_candidates" if data.candidates is not None else ("full_hunspell_wordforms" if FULL_WORDLIST_PATH.exists() else "bundled_seed_lexicon"),
         "dictionary_size": len(pool),
         "limitations": [
-            "Встроенный список — стартовый словарь, а не полный словарь русского языка.",
+            "Если полный архив не установлен, используется только небольшой стартовый список.",
             "Автоматическое ударение зависит от установленного stressonnx и контекста.",
             "Фонетическое совпадение не гарантирует грамматическую или смысловую уместность.",
         ],
