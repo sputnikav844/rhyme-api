@@ -106,7 +106,7 @@ def test_stress_index_and_marked_word_regex():
 
 def test_pair_check_classifies_near_rhyme(monkeypatch):
     monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None: word)
-    monkeypatch.setattr(main, "do_rhyme", lambda a, b: True)
+    monkeypatch.setattr(main, "do_rhyme", lambda a, b, **kwargs: True)
     response = client.post("/rhyme/check", json={"word1": "дом", "word2": "сом"})
     assert response.status_code == 200
     assert response.json()["classification"] == "near"
