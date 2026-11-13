@@ -280,13 +280,17 @@ def check_rhyme(data: LegacyRhymeRequest):
 
 @app.post("/rhyme/check")
 def check_pair(data: RhymeRequest):
-    result = check_rhyme(data)
-    # New endpoint uses the model-aware stress resolver; legacy /rhyme does not.
-    result["key1"] = _rhyme_key(data.word1, data.stress1)
-    result["key2"] = _rhyme_key(data.word2, data.stress2)
+    # New endpoint uses model-aware stress; legacy /rhyme remains independent.
+    key1 = _rhyme_key(data.word1, data.stress1)
+    key2 = _rhyme_key(data.word2, data.stress2)
+    classification = _classify_rhyme_keys(key1, key2)
     return {
-        **result,
-        "classification": _classify_rhyme_keys(result["key1"], result["key2"]),
+        "word1": data.word1,
+        "word2": data.word2,
+        "key1": key1,
+        "key2": key2,
+        "rhymes": classification == "exact",
+        "classification": classification,
         "confidence": "phonetic-engine",
         "note": "Фонетическая оценка не определяет смысловую и художественную уместность.",
     }
