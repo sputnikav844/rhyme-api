@@ -1,10 +1,12 @@
 import gzip
+import hashlib
 import json
 
 from fastapi.testclient import TestClient
 
 import main
-from scripts.build_phonetic_index import build
+from scripts.build_phonetic_index import BUILD_ALGORITHM, build
+from scripts.download_dictionary import SHA256
 
 
 def test_index_build_is_byte_for_byte_deterministic_and_deduplicates(tmp_path):
@@ -98,3 +100,24 @@ def test_search_missing_index_and_full_dictionary_uses_seed_fallback(monkeypatch
     finally:
         main._wordlist.cache_clear()
         main._wordlist_suffix_index.cache_clear()
+
+
+def test_ci_dictionary_archive_and_built_index_are_pinned_and_consistent():
+    archive = main.FULL_WORDLIST_PATH
+    if not archive.exists():
+        import pytest
+        pytest.skip("Full dictionary archive is downloaded in the CI build job")
+    actual = hashlib.sha256(archive.read_bytes()).hexdigest()
+    assert actual == SHA256
+    main._phonetic_index.cache_clear()
+    try:
+        index = main._phonetic_index()
+        assert index["wordlist_sha256"] == SHA256
+        assert index["build_algorithm"] == BUILD_ALGORITHM
+        assert index["indexed_wordforms"] == index["unique_wordforms"]
+        assert index["exact_key_count"] == len(index["exact"])
+        assert index["near_bucket_count"] == len(index["near"])
+        assert index["duplicate_entries"] >= 0
+        assert index["source_lines"] >= index["indexed_wordforms"]
+    finally:
+        main._phonetic_index.cache_clear()
