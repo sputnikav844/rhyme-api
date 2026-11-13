@@ -20,7 +20,7 @@ The first Russian stress-analysis request downloads stressonnx model assets from
 - `GET /`, `GET /health`
 - `POST /rhyme` — legacy compatible pair check.
 - `POST /rhyme/check` — pair check with exact/near/none classification.
-- `POST /rhyme/search` — candidate search. Supply `candidates` for a larger external lexicon; otherwise the bundled starter list is used.
+- `POST /rhyme/search` — candidate search. Supply `candidates` for a larger external lexicon; otherwise the full Russian word-form list is used when installed, falling back to the bundled starter list.
 - `POST /rhyme/check-lines` — checks endings of 2–16 lines.
 - `POST /prosody/analyze` — syllable counts and stress marks.
 
@@ -30,7 +30,7 @@ The first Russian stress-analysis request downloads stressonnx model assets from
 {"word":"любовь","limit":10,"strict":true}
 ```
 
-For production use, populate `data/rhyme_words.txt` with a legally redistributable, normalized Russian word-form lexicon. The included list is intentionally a small starter set, not a claim of comprehensive coverage. Do not redistribute OpenCorpora, Wiktionary or other lexical data until their exact dataset licence and attribution obligations have been reviewed.
+A pinned Russian word-form archive (about 2.36 million forms) is available under MPL-2.0. Download and verify it with `python scripts/download_dictionary.py`; the API then loads `data/ru_RU.txt.gz` automatically. The archive is not committed to Git. See `data/DICTIONARY_LICENSE.txt` for source, checksum and licence obligations. Without the archive, only the small starter list is used.
 
 ### Backward compatibility
 
@@ -41,6 +41,7 @@ The old `POST /rhyme` input fields `word1`, `word2`, optional `stress1`, `stress
 ```bash
 pip install -r requirements.txt pytest httpx
 pytest -q
+python scripts/download_dictionary.py
 ```
 
 ## Licensing
