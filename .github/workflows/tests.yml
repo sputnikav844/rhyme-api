@@ -13,4 +13,5 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install -r requirements.txt pytest httpx
+      - run: python scripts/download_dictionary.py
       - run: pytest -q
