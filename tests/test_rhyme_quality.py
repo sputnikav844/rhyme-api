@@ -6,7 +6,7 @@ phonetic matcher from the optional neural stress model.
 import json
 from pathlib import Path
 
-from phonetic_rhyme import do_rhyme, rhyme_key
+from phonetic_rhyme import rhyme_key
 
 CASES = json.loads(
     (Path(__file__).resolve().parents[1] / "data" / "rhyme_quality_cases.json").read_text(encoding="utf-8")
@@ -30,9 +30,9 @@ def classify(case):
     key_b = rhyme_key(case["b"], stress=case["stress_b"])
     if key_a == key_b:
         return "exact"
-    if do_rhyme(
-        case["a"], case["b"], case["stress_a"], case["stress_b"], loose=True
-    ):
+    tail_a = ".".join(key_a.split(".")[-3:])
+    tail_b = ".".join(key_b.split(".")[-3:])
+    if tail_a and tail_a == tail_b:
         return "near"
     return "none"
 
