@@ -87,7 +87,7 @@
     "stress_b": 0,
     "expected": "none",
     "reason": "different final consonants /k/ and /x/",
-    "category": "consonant_clusters"
+    "category": "negative_control"
   },
   {
     "a": "дом",
@@ -96,7 +96,7 @@
     "stress_b": 0,
     "expected": "none",
     "reason": "different stressed vowel and coda",
-    "category": "consonant_clusters"
+    "category": "negative_control"
   },
   {
     "a": "рад",
@@ -105,7 +105,7 @@
     "stress_b": 0,
     "expected": "none",
     "reason": "different vowel and coda",
-    "category": "consonant_clusters"
+    "category": "negative_control"
   },
   {
     "a": "кот",
@@ -159,7 +159,7 @@
     "stress_b": 0,
     "expected": "none",
     "reason": "different phonetic coda",
-    "category": "consonant_clusters"
+    "category": "negative_control"
   },
   {
     "a": "машина",
@@ -888,7 +888,7 @@
     "stress_b": 1,
     "expected": "none",
     "reason": "different consonant and vowel sequence after stress",
-    "category": "consonant_clusters"
+    "category": "negative_control"
   },
   {
     "a": "молоко",
@@ -901,7 +901,7 @@
   },
   {
     "a": "молодость",
-    "stress_a": 0,
+    "stress_a": 1,
     "b": "гордость",
     "stress_b": 0,
     "expected": "near",
@@ -910,7 +910,7 @@
   },
   {
     "a": "молодость",
-    "stress_a": 0,
+    "stress_a": 1,
     "b": "скорость",
     "stress_b": 0,
     "expected": "near",
@@ -952,5 +952,32 @@
     "expected": "exact",
     "category": "final_devoicing",
     "reason": "Final д is devoiced to /t/ in both words, leaving the same stressed phonetic tail."
+  },
+  {
+    "a": "волк",
+    "stress_a": 0,
+    "b": "толк",
+    "stress_b": 0,
+    "expected": "exact",
+    "reason": "The stressed vowel is followed by the consonant cluster /lk/ in both words.",
+    "category": "consonant_clusters"
+  },
+  {
+    "a": "мост",
+    "stress_a": 0,
+    "b": "хвост",
+    "stress_b": 0,
+    "expected": "exact",
+    "reason": "The stressed vowel is followed by the consonant cluster /st/ in both words.",
+    "category": "consonant_clusters"
+  },
+  {
+    "a": "волк",
+    "stress_a": 0,
+    "b": "мост",
+    "stress_b": 0,
+    "expected": "none",
+    "reason": "Both words have post-vocalic consonant clusters, but /lk/ and /st/ are different.",
+    "category": "consonant_clusters"
   }
 ]
