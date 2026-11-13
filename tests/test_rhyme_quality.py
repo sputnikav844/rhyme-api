@@ -93,8 +93,12 @@ def test_curated_rhyme_quality_corpus():
 def test_reviewed_stress_positions_for_known_words():
     # Russian lexical stress: мо́лодость is stressed on its first vowel.
     cases = [case for case in CASES if case["a"] == "молодость"]
-    assert len(cases) == 2
+    assert len(cases) >= 2
     assert all(case["stress_a"] == 0 for case in cases)
+    original_reviewed_pairs = {
+        case["b"] for case in cases if case["b"] in {"гордость", "скорость"}
+    }
+    assert original_reviewed_pairs == {"гордость", "скорость"}
 
 
 def test_named_phonetic_features_are_exercised_by_engine():
