@@ -94,3 +94,10 @@ def test_full_wordlist_loader_reads_gzip(tmp_path, monkeypatch):
 def test_spelling_bucket_groups_final_voicing_pairs():
     assert main._spelling_bucket_key("рад") == main._spelling_bucket_key("брат")
     assert main._spelling_bucket_key("любовь") == main._spelling_bucket_key("кровь")
+
+
+
+def test_stress_index_and_marked_word_regex():
+    marked = "любо́вь"
+    assert main._stress_index(marked) == 2
+    assert [m.group(0) for m in main.MARKED_WORD_RE.finditer(marked)] == [marked]
