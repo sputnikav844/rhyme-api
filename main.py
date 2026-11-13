@@ -357,12 +357,16 @@ def check_lines(data: LinesRequest):
             details.append({"line": line, "ending": None, "error": "Не найдено слово в конце строки"})
             continue
         marked, engine = _mark_stress(line)
+        marked_words = MARKED_WORD_RE.findall(marked)
+        marked_ending = marked_words[-1] if marked_words else last
+        marked_stress = _stress_index(marked_ending)
+        ending_stress = marked_stress - 1 if marked_stress is not None else None
         details.append({
             "line": line,
             "ending": last,
             "marked_line": marked,
             "stress_engine": engine,
-            "rhyme_key": _rhyme_key(last),
+            "rhyme_key": _rhyme_key(last, stress=ending_stress),
             "syllables": _syllables(line),
         })
     pairs = []
