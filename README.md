@@ -80,7 +80,7 @@ python scripts/download_dictionary.py
 
 ## Licensing
 
-Application-code licence: **not yet declared** in this repository. The repository owner must select and add an explicit licence before public redistribution or commercial integration; this release candidate must not be treated as granting permission to reuse the application code. Runtime dependencies retain their own licences. `stressonnx` declares Apache-2.0 and documents upstream model attributions in its repository. The word-form archive is MPL-2.0; see `data/DICTIONARY_LICENSE.txt`. Review dependency and model licences before commercial deployment.
+Application-code licensing: **Proprietary (All Rights Reserved)**, as selected by the repository owner for this project. No permission is granted to copy, modify, redistribute, sublicense or commercially reuse the application source code without separate written authorization from the rights holder. The final copyright notice is pending confirmation of the legal copyright-holder name; until that notice is added, do not treat this repository as granting a reuse licence. This restriction applies only to the application code: runtime dependencies retain their own licences, and the word-form archive remains MPL-2.0 (see `data/DICTIONARY_LICENSE.txt`). `stressonnx` declares Apache-2.0 and documents upstream model attributions in its repository. Review all dependency and model licences before commercial deployment.
 
 
 ## Полный фонетический индекс
