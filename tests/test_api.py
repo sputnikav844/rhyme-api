@@ -124,6 +124,7 @@ def test_pair_check_classifies_near_rhyme(monkeypatch):
     response = client.post("/rhyme/check", json={"word1": "дом", "word2": "сом"})
     assert response.status_code == 200
     assert response.json()["classification"] == "near"
+    assert response.json()["rhymes"] is False
 
 
 def test_line_check_respects_strict_flag(monkeypatch):
