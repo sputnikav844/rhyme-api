@@ -54,3 +54,15 @@ def test_yo_is_counted_as_stress_only_when_case_declares_it():
     assert target_stress_index("зелёный", "зелёный", yo_is_stressed=True) == 1
     assert target_stress_index("жёлтый", "жёлтый", yo_is_stressed=True) == 0
     assert target_stress_index("моло\u0301ко", "молоко") == 1
+
+
+def test_manual_override_matches_reference_case_and_has_a_citable_source():
+    case = next(
+        item for item in CASES
+        if item["word"] == "начался" and not item.get("context")
+    )
+    override = OVERRIDE_DATA["overrides"]["начался"]
+    assert case["expected_stress"] == override["stress"] == 2
+    assert override["reason"]
+    assert override["source"]
+    assert override["reference_url"].startswith("https://gramota.ru/")
