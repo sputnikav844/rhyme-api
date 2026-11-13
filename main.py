@@ -24,6 +24,7 @@ APP_DIR = Path(__file__).resolve().parent
 WORDLIST_PATH = Path(os.getenv("RHYME_WORDLIST", APP_DIR / "data" / "rhyme_words.txt"))
 FULL_WORDLIST_PATH = Path(os.getenv("RHYME_FULL_WORDLIST", APP_DIR / "data" / "ru_RU.txt.gz"))
 PHONETIC_INDEX_PATH = Path(os.getenv("RHYME_PHONETIC_INDEX", APP_DIR / "data" / "phonetic_index.json.gz"))
+PHONETIC_INDEX_BUILD_ALGORITHM = "sorted-unique-syllable-order-gzip-mtime0-v2"
 STRESS_OVERRIDES_PATH = Path(os.getenv("RHYME_STRESS_OVERRIDES", APP_DIR / "data" / "stress_overrides.json"))
 VOWELS = "аеёиоуыэюя"
 WORD_RE = re.compile(r"[а-яё]+", re.IGNORECASE)
@@ -213,6 +214,11 @@ def _phonetic_index() -> dict:
         index = json.load(source)
     if index.get("schema_version") != 1:
         raise RuntimeError("Unsupported phonetic index schema version")
+    if index.get("build_algorithm") != PHONETIC_INDEX_BUILD_ALGORITHM:
+        raise RuntimeError(
+            "Phonetic index is missing or uses an outdated build algorithm; "
+            "rebuild it with scripts/build_phonetic_index.py"
+        )
     return index
 
 
