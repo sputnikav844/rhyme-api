@@ -83,11 +83,27 @@ Not included in v1.0:
 - The only reviewed lexical override is `начался` (zero-based vowel index 2),
   with a Gramota.ru reference, rationale and regression tests. Override
   application now preserves model stress marks on all non-overridden words.
-- Full dictionary/index build has completed in CI: 2,342,711 wordforms,
-  2,211 exact phonetic keys and 1,673 near buckets.
+- **Gate 4 — Dictionary search and performance: complete.** CI downloads the
+  pinned archive and builds the index from scratch. Its SHA-256 is
+  `8ac7fbc26204d437d3e8be8609ba6a6e2a0afae17548cdfa0ff01c13de55e3fa`.
+  The latest build accounted for all 2,367,159 source lines: 12,780 duplicates,
+  24,448 invalid/non-indexable entries and 2,329,931 unique indexed wordforms;
+  2,211 exact keys and 1,673 near buckets.
+- Index output is deterministic: word/key ordering is fixed, duplicate wordforms
+  are removed, gzip metadata is fixed, and a test confirms byte-for-byte equality
+  across two builds from the same input. Schema, algorithm ID, checksum, counts
+  and bucket statistics are validated in CI.
+- Search regression tests cover ordering, duplicate suppression, result limits,
+  strict/relaxed results, full-wordlist fallback and bundled-seed fallback.
+  The search path uses pre-sorted buckets and avoids recomputing phonetic keys
+  for every candidate.
+- CI benchmark on `ubuntu-latest`: 50 warm requests across five common words
+  and strict/relaxed modes; median 4.30 ms, p95 5.22 ms, max 8.15 ms. Cold first
+  request 2,466.65 ms, including lazy index/model initialization. The CI warm
+  p95 threshold is 1,000 ms.
 - Stress corpus references and evaluation instructions are documented in
   `data/STRESS_CORPUS_SOURCES.md` and README.
-- **Next: Gate 4 — Dictionary/index.** Gates 1, 4 and 5 remain open.
+- **Next: Gate 5 — Release candidate.** Gate 1 and Gate 5 remain open.
 
 ## Safety boundary
 
