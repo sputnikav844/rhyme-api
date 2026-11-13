@@ -18,3 +18,4 @@ jobs:
       - run: pytest -q
       - run: python scripts/evaluate_rhyme_quality.py
       - run: python scripts/evaluate_stress.py
+      - run: python scripts/benchmark_search.py --iterations 5 --max-warm-p95-ms 1000
