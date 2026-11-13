@@ -170,3 +170,23 @@ def test_search_uses_phonetic_index(monkeypatch):
     body = response.json()
     assert body["source"] == "full_phonetic_index"
     assert {item["word"] for item in body["results"]} == {"брат"}
+
+
+
+def test_pair_check_passes_explicit_stress_to_near_matcher(monkeypatch):
+    captured = {}
+    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None: word)
+
+    def fake_do_rhyme(a, b, s1=None, s2=None, **kwargs):
+        captured.update({"a": a, "b": b, "s1": s1, "s2": s2, "loose": kwargs.get("loose")})
+        return True
+
+    monkeypatch.setattr(main, "do_rhyme", fake_do_rhyme)
+    response = client.post("/rhyme/check", json={
+        "word1": "молодость", "word2": "гордость", "stress1": 0, "stress2": 0
+    })
+    assert response.status_code == 200
+    assert response.json()["classification"] == "near"
+    assert captured == {
+        "a": "молодость", "b": "гордость", "s1": 0, "s2": 0, "loose": True
+    }
