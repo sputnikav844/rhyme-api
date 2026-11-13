@@ -39,13 +39,13 @@ def test_search_deduplicates_orders_and_applies_limit_after_sort(monkeypatch):
     monkeypatch.setattr(main, "_phonetic_index", lambda: {
         "schema_version": 1,
         "indexed_wordforms": 4,
-        "exact": {"target-key": ["рад", "брат", "кот", "брат"]},
+        "exact": {"x.a.b.c": ["рад", "брат", "кот", "брат"]},
         "near": {"a.b.c": ["срочно", "рад", "брат", "срочно"]},
     })
     keys = {
-        "кот": "target-key",
-        "брат": "target-key",
-        "рад": "target-key",
+        "кот": "x.a.b.c",
+        "брат": "x.a.b.c",
+        "рад": "x.a.b.c",
         "срочно": "x.a.b.c",
     }
     monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None, **kwargs: keys[word])
