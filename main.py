@@ -265,9 +265,7 @@ def check_pair(data: RhymeRequest):
     return {
         **result,
         "classification": "exact" if same_key else (
-            "near" if do_rhyme(
-                data.word1, data.word2, data.stress1, data.stress2, loose=True
-            ) else "none"
+            "near" if _phonetic_tail(result["key1"]) == _phonetic_tail(result["key2"]) else "none"
         ),
         "confidence": "phonetic-engine",
         "note": "Фонетическая оценка не определяет смысловую и художественную уместность.",
