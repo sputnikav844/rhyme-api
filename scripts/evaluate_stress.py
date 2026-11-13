@@ -10,11 +10,16 @@ general-purpose stress accuracy.
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+# When executed as "python scripts/evaluate_stress.py", Python puts scripts/
+# rather than the repository root on sys.path.
+sys.path.insert(0, str(ROOT))
 
 from main import _stress_index
 
-ROOT = Path(__file__).resolve().parents[1]
 CASES = json.loads(
     (ROOT / "data" / "stress_quality_cases.json").read_text(encoding="utf-8")
 )
@@ -31,7 +36,10 @@ def main() -> None:
     for case in CASES:
         word = case["word"]
         marked = stress(word, "ru", fallback=True)
-        actual = _stress_index(marked)
+        # _stress_index returns a one-based syllable number; the corpus stores
+        # zero-based vowel indices, matching the rhyme API contract.
+        marked_index = _stress_index(marked)
+        actual = marked_index - 1 if marked_index is not None else None
         expected = case["expected_stress"]
         if actual == expected:
             correct += 1
