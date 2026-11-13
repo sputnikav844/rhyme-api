@@ -201,7 +201,7 @@ def check_pair(data: RhymeRequest):
     same_key = result["key1"] == result["key2"]
     return {
         **result,
-        "classification": "exact" if same_key else ("near" if do_rhyme(data.word1, data.word2) else "none"),
+        "classification": "exact" if same_key else ("near" if do_rhyme(data.word1, data.word2, loose=True) else "none"),
         "confidence": "phonetic-engine",
         "note": "Фонетическая оценка не определяет смысловую и художественную уместность.",
     }
@@ -225,7 +225,7 @@ def search_rhymes(data: SearchRequest):
         try:
             key = _rhyme_key(candidate, infer=False)
             exact = key == target_key
-            if exact or (not data.strict and do_rhyme(target, candidate)):
+            if exact or (not data.strict and do_rhyme(target, candidate, loose=True)):
                 results.append({
                     "word": candidate,
                     "rhyme_key": key,
@@ -274,7 +274,7 @@ def check_lines(data: LinesRequest):
             a, b = details[i], details[j]
             if a["ending"] and b["ending"]:
                 ka, kb = a["rhyme_key"], b["rhyme_key"]
-                rhymes = do_rhyme(a["ending"], b["ending"])
+                rhymes = do_rhyme(a["ending"], b["ending"], loose=True)
                 pairs.append({
                     "line_a": i + 1, "line_b": j + 1,
                     "word_a": a["ending"], "word_b": b["ending"],
