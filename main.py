@@ -42,6 +42,14 @@ class RhymeRequest(BaseModel):
     stress2: int | None = Field(default=None, ge=0)
 
 
+class LegacyRhymeRequest(BaseModel):
+    """Original /rhyme input schema retained for existing integrations."""
+    word1: str
+    word2: str
+    stress1: int | None = None
+    stress2: int | None = None
+
+
 class SearchRequest(BaseModel):
     word: str = Field(min_length=1, max_length=100)
     limit: int = Field(default=10, ge=1, le=50)
@@ -253,7 +261,7 @@ def health():
 
 
 @app.post("/rhyme")
-def check_rhyme(data: RhymeRequest):
+def check_rhyme(data: LegacyRhymeRequest):
     """Backward-compatible endpoint used by n8n V28."""
     key1 = _rhyme_key(data.word1, data.stress1)
     key2 = _rhyme_key(data.word2, data.stress2)
