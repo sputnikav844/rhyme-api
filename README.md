@@ -80,7 +80,7 @@ python scripts/download_dictionary.py
 
 ## Licensing
 
-Application code: see repository history. Runtime dependencies retain their own licences. stressonnx declares Apache-2.0 and documents the upstream model attributions in its repository. Review dependency and model licences before commercial deployment.
+Application-code licence: **not yet declared** in this repository. The repository owner must select and add an explicit licence before public redistribution or commercial integration; this release candidate must not be treated as granting permission to reuse the application code. Runtime dependencies retain their own licences. `stressonnx` declares Apache-2.0 and documents upstream model attributions in its repository. The word-form archive is MPL-2.0; see `data/DICTIONARY_LICENSE.txt`. Review dependency and model licences before commercial deployment.
 
 
 ## Полный фонетический индекс
@@ -147,3 +147,58 @@ p95 — **3,53 мс**, максимум — **6,24 мс**. Первый холо
 GitHub Actions ubuntu-latest и не являются обещанием задержки на любом VPS.
 
 **Важное ограничение ударений:** словарные формы индексируются с fallback-эвристикой библиотеки `phonetic-rhyme`, а не с нейросетевым определением ударения для каждой из миллионов форм. Для целевого слова API использует `stressonnx`, если модель доступна. Поэтому омографы и исключения могут требовать явного параметра `stress` и отдельной лингвистической проверки. Индекс обеспечивает поиск по фонетическим ключам, но сам по себе не гарантирует безошибочное ударение каждой словоформы.
+
+
+## Endpoint request examples
+
+All request bodies are JSON. Validation failures from the new endpoints return HTTP
+`422` with FastAPI/Pydantic validation details.
+
+Pair check:
+
+```json
+{"word1":"рад","word2":"брат","stress1":0,"stress2":0}
+```
+
+Rhyme search (optional `stress` is a zero-based vowel index; `strict:false`
+allows near-rhymes):
+
+```json
+{"word":"любовь","limit":10,"strict":false}
+```
+
+Line endings (2–16 lines):
+
+```json
+{"lines":["Я вижу свет","И слышу ответ"],"strict":false}
+```
+
+Prosody and stress:
+
+```json
+{"text":"Молоко и хлеб"}
+```
+
+Legacy `POST /rhyme` deliberately retains its original permissive input schema
+and boolean semantics for existing integrations. Do not assume that its validation
+behaviour matches the newer endpoints.
+
+## Rollback considerations
+
+This repository is not deployed by CI. For a future self-managed deployment,
+record the currently deployed commit and keep the previous application package
+and data files before upgrading. If a release causes a regression:
+
+1. Stop the API service using the deployment's service manager.
+2. Restore the previous known-good application commit/package and its matching
+   dependency lock/environment.
+3. Restore the previous compatible phonetic index. An index built with an older
+   algorithm may be rejected by a newer application; do not mix application and
+   index versions.
+4. Start the service and verify `GET /health`, then run smoke tests for
+   `POST /rhyme` and the endpoints actually used by the integration.
+5. Keep the failed release and logs for diagnosis; do not delete the only backup.
+
+Exact service commands, paths and snapshot procedure must be supplied by the
+target host's deployment runbook. No production rollback or deployment is
+performed by this repository workflow.
