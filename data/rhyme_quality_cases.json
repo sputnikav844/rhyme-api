@@ -142,5 +142,661 @@
     "stress_b": 0,
     "expected": "none",
     "reason": "different phonetic coda"
+  },
+  {
+    "a": "машина",
+    "stress_a": 1,
+    "b": "пружина",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ина phonetic ending"
+  },
+  {
+    "a": "машина",
+    "stress_a": 1,
+    "b": "картина",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ина phonetic ending"
+  },
+  {
+    "a": "машина",
+    "stress_a": 1,
+    "b": "долина",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ина phonetic ending"
+  },
+  {
+    "a": "машина",
+    "stress_a": 1,
+    "b": "малина",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ина phonetic ending"
+  },
+  {
+    "a": "пружина",
+    "stress_a": 1,
+    "b": "картина",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ина phonetic ending"
+  },
+  {
+    "a": "пружина",
+    "stress_a": 1,
+    "b": "долина",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ина phonetic ending"
+  },
+  {
+    "a": "пружина",
+    "stress_a": 1,
+    "b": "малина",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ина phonetic ending"
+  },
+  {
+    "a": "картина",
+    "stress_a": 1,
+    "b": "долина",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ина phonetic ending"
+  },
+  {
+    "a": "картина",
+    "stress_a": 1,
+    "b": "малина",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ина phonetic ending"
+  },
+  {
+    "a": "долина",
+    "stress_a": 1,
+    "b": "малина",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ина phonetic ending"
+  },
+  {
+    "a": "планета",
+    "stress_a": 1,
+    "b": "комета",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ета phonetic ending"
+  },
+  {
+    "a": "планета",
+    "stress_a": 1,
+    "b": "ракета",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ета phonetic ending"
+  },
+  {
+    "a": "планета",
+    "stress_a": 1,
+    "b": "газета",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ета phonetic ending"
+  },
+  {
+    "a": "планета",
+    "stress_a": 1,
+    "b": "монета",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ета phonetic ending"
+  },
+  {
+    "a": "комета",
+    "stress_a": 1,
+    "b": "ракета",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ета phonetic ending"
+  },
+  {
+    "a": "комета",
+    "stress_a": 1,
+    "b": "газета",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ета phonetic ending"
+  },
+  {
+    "a": "комета",
+    "stress_a": 1,
+    "b": "монета",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ета phonetic ending"
+  },
+  {
+    "a": "ракета",
+    "stress_a": 1,
+    "b": "газета",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ета phonetic ending"
+  },
+  {
+    "a": "ракета",
+    "stress_a": 1,
+    "b": "монета",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ета phonetic ending"
+  },
+  {
+    "a": "газета",
+    "stress_a": 1,
+    "b": "монета",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ета phonetic ending"
+  },
+  {
+    "a": "работа",
+    "stress_a": 1,
+    "b": "забота",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ота phonetic ending"
+  },
+  {
+    "a": "работа",
+    "stress_a": 1,
+    "b": "охота",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ота phonetic ending"
+  },
+  {
+    "a": "работа",
+    "stress_a": 1,
+    "b": "суббота",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ота phonetic ending"
+  },
+  {
+    "a": "работа",
+    "stress_a": 1,
+    "b": "дремота",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ота phonetic ending"
+  },
+  {
+    "a": "забота",
+    "stress_a": 1,
+    "b": "охота",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ота phonetic ending"
+  },
+  {
+    "a": "забота",
+    "stress_a": 1,
+    "b": "суббота",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ота phonetic ending"
+  },
+  {
+    "a": "забота",
+    "stress_a": 1,
+    "b": "дремота",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ота phonetic ending"
+  },
+  {
+    "a": "охота",
+    "stress_a": 1,
+    "b": "суббота",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ота phonetic ending"
+  },
+  {
+    "a": "охота",
+    "stress_a": 1,
+    "b": "дремота",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ота phonetic ending"
+  },
+  {
+    "a": "суббота",
+    "stress_a": 1,
+    "b": "дремота",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ота phonetic ending"
+  },
+  {
+    "a": "фонарь",
+    "stress_a": 1,
+    "b": "словарь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final -арь ending"
+  },
+  {
+    "a": "фонарь",
+    "stress_a": 1,
+    "b": "сухарь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final -арь ending"
+  },
+  {
+    "a": "фонарь",
+    "stress_a": 1,
+    "b": "букварь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final -арь ending"
+  },
+  {
+    "a": "фонарь",
+    "stress_a": 1,
+    "b": "январь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final -арь ending"
+  },
+  {
+    "a": "словарь",
+    "stress_a": 1,
+    "b": "сухарь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final -арь ending"
+  },
+  {
+    "a": "словарь",
+    "stress_a": 1,
+    "b": "букварь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final -арь ending"
+  },
+  {
+    "a": "словарь",
+    "stress_a": 1,
+    "b": "январь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final -арь ending"
+  },
+  {
+    "a": "сухарь",
+    "stress_a": 1,
+    "b": "букварь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final -арь ending"
+  },
+  {
+    "a": "сухарь",
+    "stress_a": 1,
+    "b": "январь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final -арь ending"
+  },
+  {
+    "a": "букварь",
+    "stress_a": 1,
+    "b": "январь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final -арь ending"
+  },
+  {
+    "a": "писать",
+    "stress_a": 1,
+    "b": "сказать",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ать"
+  },
+  {
+    "a": "писать",
+    "stress_a": 1,
+    "b": "молчать",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ать"
+  },
+  {
+    "a": "писать",
+    "stress_a": 1,
+    "b": "кричать",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ать"
+  },
+  {
+    "a": "писать",
+    "stress_a": 1,
+    "b": "звучать",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ать"
+  },
+  {
+    "a": "сказать",
+    "stress_a": 1,
+    "b": "молчать",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ать"
+  },
+  {
+    "a": "сказать",
+    "stress_a": 1,
+    "b": "кричать",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ать"
+  },
+  {
+    "a": "сказать",
+    "stress_a": 1,
+    "b": "звучать",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ать"
+  },
+  {
+    "a": "молчать",
+    "stress_a": 1,
+    "b": "кричать",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ать"
+  },
+  {
+    "a": "молчать",
+    "stress_a": 1,
+    "b": "звучать",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ать"
+  },
+  {
+    "a": "кричать",
+    "stress_a": 1,
+    "b": "звучать",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ать"
+  },
+  {
+    "a": "лететь",
+    "stress_a": 1,
+    "b": "гореть",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -еть"
+  },
+  {
+    "a": "лететь",
+    "stress_a": 1,
+    "b": "терпеть",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -еть"
+  },
+  {
+    "a": "лететь",
+    "stress_a": 1,
+    "b": "шуметь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -еть"
+  },
+  {
+    "a": "лететь",
+    "stress_a": 1,
+    "b": "звенеть",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -еть"
+  },
+  {
+    "a": "гореть",
+    "stress_a": 1,
+    "b": "терпеть",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -еть"
+  },
+  {
+    "a": "гореть",
+    "stress_a": 1,
+    "b": "шуметь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -еть"
+  },
+  {
+    "a": "гореть",
+    "stress_a": 1,
+    "b": "звенеть",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -еть"
+  },
+  {
+    "a": "терпеть",
+    "stress_a": 1,
+    "b": "шуметь",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -еть"
+  },
+  {
+    "a": "терпеть",
+    "stress_a": 1,
+    "b": "звенеть",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -еть"
+  },
+  {
+    "a": "шуметь",
+    "stress_a": 1,
+    "b": "звенеть",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -еть"
+  },
+  {
+    "a": "любить",
+    "stress_a": 1,
+    "b": "хранить",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ить"
+  },
+  {
+    "a": "любить",
+    "stress_a": 1,
+    "b": "ценить",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ить"
+  },
+  {
+    "a": "любить",
+    "stress_a": 1,
+    "b": "творить",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ить"
+  },
+  {
+    "a": "любить",
+    "stress_a": 1,
+    "b": "ходить",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ить"
+  },
+  {
+    "a": "хранить",
+    "stress_a": 1,
+    "b": "ценить",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ить"
+  },
+  {
+    "a": "хранить",
+    "stress_a": 1,
+    "b": "творить",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ить"
+  },
+  {
+    "a": "хранить",
+    "stress_a": 1,
+    "b": "ходить",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ить"
+  },
+  {
+    "a": "ценить",
+    "stress_a": 1,
+    "b": "творить",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ить"
+  },
+  {
+    "a": "ценить",
+    "stress_a": 1,
+    "b": "ходить",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ить"
+  },
+  {
+    "a": "творить",
+    "stress_a": 1,
+    "b": "ходить",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed infinitive ending -ить"
+  },
+  {
+    "a": "сомнение",
+    "stress_a": 1,
+    "b": "волнение",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ение ending"
+  },
+  {
+    "a": "сомнение",
+    "stress_a": 1,
+    "b": "решение",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ение ending"
+  },
+  {
+    "a": "сомнение",
+    "stress_a": 1,
+    "b": "движение",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ение ending"
+  },
+  {
+    "a": "сомнение",
+    "stress_a": 1,
+    "b": "значение",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ение ending"
+  },
+  {
+    "a": "волнение",
+    "stress_a": 1,
+    "b": "решение",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ение ending"
+  },
+  {
+    "a": "волнение",
+    "stress_a": 1,
+    "b": "движение",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ение ending"
+  },
+  {
+    "a": "волнение",
+    "stress_a": 1,
+    "b": "значение",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ение ending"
+  },
+  {
+    "a": "решение",
+    "stress_a": 1,
+    "b": "движение",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ение ending"
+  },
+  {
+    "a": "решение",
+    "stress_a": 1,
+    "b": "значение",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ение ending"
+  },
+  {
+    "a": "движение",
+    "stress_a": 1,
+    "b": "значение",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed -ение ending"
+  },
+  {
+    "a": "собака",
+    "stress_a": 1,
+    "b": "дорога",
+    "stress_b": 1,
+    "expected": "none",
+    "reason": "different consonant and vowel sequence after stress"
+  },
+  {
+    "a": "молоко",
+    "stress_a": 2,
+    "b": "облако",
+    "stress_b": 1,
+    "expected": "none",
+    "reason": "different stressed syllables and phonetic endings"
   }
 ]
