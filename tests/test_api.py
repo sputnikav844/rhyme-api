@@ -15,6 +15,8 @@ def test_legacy_rhyme_contract():
     assert response.status_code == 200
     body = response.json()
     assert set(body) == {"word1", "word2", "key1", "key2", "rhymes"}
+    assert body["key1"] == str(main.rhyme_key("рад", stress=None))
+    assert body["key2"] == str(main.rhyme_key("брат", stress=None))
     assert body["rhymes"] == main.do_rhyme("рад", "брат", None, None)
 
     schema = client.get("/openapi.json").json()["components"]["schemas"]["LegacyRhymeRequest"]
