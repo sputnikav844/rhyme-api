@@ -57,7 +57,7 @@ def test_search_rejects_multiword_target():
 
 def test_rhyme_key_uses_model_stress_position(monkeypatch):
     captured = {}
-    monkeypatch.setattr(main, "_mark_stress", lambda text: ("любов\\u0301ь", "test-model"))
+    monkeypatch.setattr(main, "_mark_stress", lambda text: ("любо\\u0301вь", "test-model"))
 
     def fake_rhyme_key(word, stress=None):
         captured["word"] = word
