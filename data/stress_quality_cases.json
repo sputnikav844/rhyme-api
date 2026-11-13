@@ -1,0 +1,62 @@
+[
+  {
+    "word": "молоко",
+    "expected_stress": 2
+  },
+  {
+    "word": "собака",
+    "expected_stress": 1
+  },
+  {
+    "word": "окно",
+    "expected_stress": 1
+  },
+  {
+    "word": "звонит",
+    "expected_stress": 1
+  },
+  {
+    "word": "каталог",
+    "expected_stress": 2
+  },
+  {
+    "word": "договор",
+    "expected_stress": 2
+  },
+  {
+    "word": "торты",
+    "expected_stress": 0
+  },
+  {
+    "word": "свёкла",
+    "expected_stress": 0
+  },
+  {
+    "word": "жалюзи",
+    "expected_stress": 2
+  },
+  {
+    "word": "красивее",
+    "expected_stress": 1
+  },
+  {
+    "word": "средства",
+    "expected_stress": 0
+  },
+  {
+    "word": "начался",
+    "expected_stress": 2
+  },
+  {
+    "word": "приняла",
+    "expected_stress": 2
+  },
+  {
+    "word": "облегчить",
+    "expected_stress": 2
+  },
+  {
+    "word": "вероисповедание",
+    "expected_stress": 4
+  }
+]
