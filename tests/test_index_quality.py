@@ -22,6 +22,9 @@ def test_index_build_is_byte_for_byte_deterministic_and_deduplicates(tmp_path):
     assert first.read_bytes() == second.read_bytes()
     assert stats_a["source_lines"] == 5
     assert stats_a["duplicate_entries"] == 2
+    assert stats_a["invalid_entries"] == 0
+    assert stats_a["key_failures"] == 0
+    assert stats_a["skipped_entries"] == 0
     assert stats_a["indexed_wordforms"] == 3
     assert stats_a["wordlist_sha256"] == stats_b["wordlist_sha256"]
 
@@ -118,7 +121,12 @@ def test_ci_dictionary_archive_and_built_index_are_pinned_and_consistent():
         assert index["exact_key_count"] == len(index["exact"])
         assert index["near_bucket_count"] == len(index["near"])
         assert index["duplicate_entries"] >= 0
-        assert index["source_lines"] >= index["indexed_wordforms"]
+        assert index["invalid_entries"] >= 0
+        assert index["key_failures"] >= 0
+        assert index["skipped_entries"] == index["invalid_entries"] + index["key_failures"]
+        assert index["source_lines"] == (
+            index["duplicate_entries"] + index["skipped_entries"] + index["indexed_wordforms"]
+        )
     finally:
         main._phonetic_index.cache_clear()
 
