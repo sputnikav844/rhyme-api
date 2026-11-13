@@ -31,21 +31,22 @@ def test_index_build_is_byte_for_byte_deterministic_and_deduplicates(tmp_path):
     with gzip.open(first, "rt", encoding="utf-8") as stream:
         index = json.load(stream)
     assert index["schema_version"] == 1
-    assert index["build_algorithm"] == "sorted-unique-wordforms-gzip-mtime0-v1"
+    assert index["build_algorithm"] == "sorted-unique-syllable-order-gzip-mtime0-v2"
     assert index["unique_wordforms"] == 3
     assert index["indexed_wordforms"] == 3
     assert index["exact_key_count"] == len(index["exact"])
     assert index["near_bucket_count"] == len(index["near"])
-    assert all(words == sorted(set(words)) for words in index["exact"].values())
-    assert all(words == sorted(set(words)) for words in index["near"].values())
+    word_order = lambda word: (sum(char in main.VOWELS for char in word), word)
+    assert all(words == sorted(set(words), key=word_order) for words in index["exact"].values())
+    assert all(words == sorted(set(words), key=word_order) for words in index["near"].values())
 
 
 def test_search_deduplicates_orders_and_applies_limit_after_sort(monkeypatch):
     monkeypatch.setattr(main, "_phonetic_index", lambda: {
         "schema_version": 1,
         "indexed_wordforms": 4,
-        "exact": {"x.a.b.c": ["рад", "брат", "кот", "брат"]},
-        "near": {"a.b.c": ["срочно", "рад", "брат", "срочно"]},
+        "exact": {"x.a.b.c": ["брат", "кот", "рад"]},
+        "near": {"a.b.c": ["брат", "кот", "рад", "срочно"]},
     })
     keys = {
         "кот": "x.a.b.c",
