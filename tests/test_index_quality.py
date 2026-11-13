@@ -121,3 +121,10 @@ def test_ci_dictionary_archive_and_built_index_are_pinned_and_consistent():
         assert index["source_lines"] >= index["indexed_wordforms"]
     finally:
         main._phonetic_index.cache_clear()
+
+
+def test_search_limit_validation_boundaries():
+    client = TestClient(main.app)
+    for limit in (0, 51):
+        response = client.post("/rhyme/search", json={"word": "любовь", "limit": limit})
+        assert response.status_code == 422
