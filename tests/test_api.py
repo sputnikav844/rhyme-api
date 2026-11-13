@@ -88,3 +88,9 @@ def test_full_wordlist_loader_reads_gzip(tmp_path, monkeypatch):
         assert main._wordlist() == ("любовь", "ответ")
     finally:
         main._wordlist.cache_clear()
+
+
+
+def test_spelling_bucket_groups_final_voicing_pairs():
+    assert main._spelling_bucket_key("рад") == main._spelling_bucket_key("брат")
+    assert main._spelling_bucket_key("любовь") == main._spelling_bucket_key("кровь")
