@@ -24,7 +24,7 @@ def test_check_endpoint():
 
 
 def test_search_uses_supplied_candidates(monkeypatch):
-    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None: "test-key" if word in {"кот", "рот"} else word)
+    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None, **kwargs: "test-key" if word in {"кот", "рот"} else word)
     response = client.post("/rhyme/search", json={
         "word": "кот", "candidates": ["рот", "дом", "кот"], "limit": 10
     })
@@ -81,7 +81,7 @@ def test_full_wordlist_loader_reads_gzip(tmp_path, monkeypatch):
 
     archive = tmp_path / "words.txt.gz"
     with gzip.open(archive, "wt", encoding="utf-8") as stream:
-        stream.write("любовь\\nответ\\n# comment\\n123\\n")
+        stream.write("любовь\nответ\n# comment\n123\n")
     monkeypatch.setattr(main, "FULL_WORDLIST_PATH", archive)
     main._wordlist.cache_clear()
     try:
