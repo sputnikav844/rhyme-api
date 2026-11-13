@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Measure cold index load and warm common-query latency on the current runner."""
+"""Measure cold first-query and warm common-query latency on the current runner."""
 from __future__ import annotations
 
 import argparse
 import json
 import math
-import time
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,6 +18,7 @@ from main import app
 
 
 QUERIES = ("любовь", "рад", "молоко", "дом", "свет")
+MODES = (True, False)
 
 
 def percentile(values: list[float], fraction: float) -> float:
@@ -41,24 +42,42 @@ def main() -> None:
         raise SystemExit(f"Cold query failed: {first.status_code} {first.text}")
 
     for word in QUERIES:
-        response = client.post("/rhyme/search", json={"word": word, "limit": 10})
-        if response.status_code != 200:
-            raise SystemExit(f"Warm-up query {word!r} failed: {response.status_code}")
+        for strict in MODES:
+            response = client.post("/rhyme/search", json={
+                "word": word, "limit": 10, "strict": strict
+            })
+            if response.status_code != 200:
+                raise SystemExit(
+                    f"Warm-up query {word!r} strict={strict} failed: {response.status_code}"
+                )
 
     timings = []
+    by_query: dict[str, list[float]] = {}
     for _ in range(args.iterations):
         for word in QUERIES:
-            started = time.perf_counter()
-            response = client.post("/rhyme/search", json={"word": word, "limit": 10})
-            elapsed = (time.perf_counter() - started) * 1000
-            if response.status_code != 200:
-                raise SystemExit(f"Query {word!r} failed: {response.status_code}")
-            timings.append(elapsed)
+            for strict in MODES:
+                started = time.perf_counter()
+                response = client.post("/rhyme/search", json={
+                    "word": word, "limit": 10, "strict": strict
+                })
+                elapsed = (time.perf_counter() - started) * 1000
+                if response.status_code != 200:
+                    raise SystemExit(
+                        f"Query {word!r} strict={strict} failed: {response.status_code}"
+                    )
+                timings.append(elapsed)
+                query_name = f"{word}/strict={strict}"
+                by_query.setdefault(query_name, []).append(elapsed)
 
     report = {
         "runner": "GitHub Actions ubuntu-latest",
         "queries": list(QUERIES),
+        "modes": {"strict": True, "relaxed": False},
         "warm_samples": len(timings),
+        "per_query_p95_ms": {
+            query: round(percentile(samples, 0.95), 2)
+            for query, samples in by_query.items()
+        },
         "cold_first_query_ms": round(cold_ms, 2),
         "warm_median_ms": round(percentile(timings, 0.50), 2),
         "warm_p95_ms": round(percentile(timings, 0.95), 2),
