@@ -36,6 +36,21 @@ A pinned Russian word-form archive (about 2.36 million forms) is available under
 
 The old `POST /rhyme` input fields `word1`, `word2`, optional `stress1`, `stress2` and response keys `word1`, `word2`, `key1`, `key2`, `rhymes` are retained. No n8n workflow changes are required for this code update alone.
 
+### Rhyme classification
+
+The legacy `POST /rhyme` keeps its original phonetic-library key generation and
+`do_rhyme` boolean. The newer `POST /rhyme/check` uses the model-aware stress
+resolver when stress is omitted; explicit `stress1` and `stress2` values are
+zero-based vowel positions.
+
+Both new pair and line checks use the same classifier:
+- `exact`: complete stressed phonetic keys match;
+- `near`: the complete keys differ, but their final three phoneme symbols match;
+- `none`: neither condition is met.
+
+For `POST /rhyme/check-lines`, `strict: true` suppresses `near` results.
+The ending key uses the stress mark found in the complete line when available.
+
 ## Tests
 
 ```bash
