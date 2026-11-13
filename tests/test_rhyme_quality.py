@@ -100,6 +100,11 @@ def test_reviewed_stress_positions_for_known_words():
     }
     assert original_reviewed_pairs == {"гордость", "скорость"}
 
+    # Reviewed dictionary stress: о́блако has stress on its first vowel.
+    cloud_cases = [case for case in CASES if case["a"] == "молоко" and case["b"] == "облако"]
+    assert len(cloud_cases) == 1
+    assert cloud_cases[0]["stress_b"] == 0
+
 
 def test_named_phonetic_features_are_exercised_by_engine():
     # Final devoicing: both final voiced stops surface as /t/.
