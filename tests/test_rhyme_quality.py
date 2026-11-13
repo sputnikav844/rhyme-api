@@ -19,6 +19,15 @@ def classify(case):
     return "exact" if key_a == key_b else "none"
 
 
+def test_corpus_has_release_minimum_and_valid_annotations():
+    assert len(CASES) >= 100, f"Expected at least 100 reviewed cases, got {len(CASES)}"
+    for index, case in enumerate(CASES, start=1):
+        assert case["expected"] in {"exact", "none"}, f"Unsupported expected class in case {index}"
+        assert case.get("reason", "").strip(), f"Missing explanation in case {index}"
+        assert isinstance(case["stress_a"], int) and case["stress_a"] >= 0, f"Invalid stress_a in case {index}"
+        assert isinstance(case["stress_b"], int) and case["stress_b"] >= 0, f"Invalid stress_b in case {index}"
+
+
 def test_curated_rhyme_quality_corpus():
     failures = []
     for case in CASES:
