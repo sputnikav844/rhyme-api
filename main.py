@@ -23,7 +23,7 @@ WORDLIST_PATH = Path(os.getenv("RHYME_WORDLIST", APP_DIR / "data" / "rhyme_words
 FULL_WORDLIST_PATH = Path(os.getenv("RHYME_FULL_WORDLIST", APP_DIR / "data" / "ru_RU.txt.gz"))
 VOWELS = "аеёиоуыэюя"
 WORD_RE = re.compile(r"[а-яё]+", re.IGNORECASE)
-MARKED_WORD_RE = re.compile(r"(?:[а-яё]\\u0301?)+", re.IGNORECASE)
+MARKED_WORD_RE = re.compile(r"(?:[а-яё]\u0301?)+", re.IGNORECASE)
 
 app = FastAPI(
     title="Russian Rhyme API",
