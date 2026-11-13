@@ -22,8 +22,9 @@ def test_legacy_rhyme_contract():
     assert schema["properties"]["word1"]["type"] == "string"
     assert "minLength" not in schema["properties"]["word1"]
     assert "maxLength" not in schema["properties"]["word1"]
-    assert schema["properties"]["stress1"]["type"] == "integer"
-    assert "minimum" not in schema["properties"]["stress1"]
+    stress_schema = schema["properties"]["stress1"]
+    assert any(item.get("type") == "integer" for item in stress_schema["anyOf"])
+    assert all("minimum" not in item for item in stress_schema["anyOf"])
 
 
 def test_check_endpoint():
