@@ -53,4 +53,4 @@ def test_ambiguous_homographs_are_not_given_word_level_overrides():
 def test_yo_is_counted_as_stress_only_when_case_declares_it():
     assert target_stress_index("зелёный", "зелёный", yo_is_stressed=True) == 1
     assert target_stress_index("жёлтый", "жёлтый", yo_is_stressed=True) == 0
-    assert target_stress_index("моло\\u0301ко", "молоко") == 1
+    assert target_stress_index("моло\u0301ко", "молоко") == 1
