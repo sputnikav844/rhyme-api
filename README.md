@@ -47,3 +47,22 @@ python scripts/download_dictionary.py
 ## Licensing
 
 Application code: see repository history. Runtime dependencies retain their own licences. stressonnx declares Apache-2.0 and documents the upstream model attributions in its repository. Review dependency and model licences before commercial deployment.
+
+
+## Полный фонетический индекс
+
+Словарь загружается отдельно, а фонетический индекс строится офлайн:
+
+```bash
+python scripts/download_dictionary.py
+python scripts/build_phonetic_index.py
+```
+
+По умолчанию создаётся `data/phonetic_index.json.gz`. API загружает готовый индекс при первом поиске, не строит его при запуске сервиса и не прогоняет весь словарь на каждом запросе. Путь можно переопределить переменной `RHYME_PHONETIC_INDEX`.
+
+Индекс содержит:
+- точные фонетические ключи от ударной гласной до конца слова;
+- отдельные корзины по последним трём фонемам для приблизительных рифм;
+- контрольную сумму исходного архива и число проиндексированных словоформ.
+
+**Важное ограничение ударений:** словарные формы индексируются с fallback-эвристикой библиотеки `phonetic-rhyme`, а не с нейросетевым определением ударения для каждой из миллионов форм. Для целевого слова API использует `stressonnx`, если модель доступна. Поэтому омографы и исключения могут требовать явного параметра `stress` и отдельной лингвистической проверки. Индекс обеспечивает поиск по фонетическим ключам, но сам по себе не гарантирует безошибочное ударение каждой словоформы.
