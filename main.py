@@ -23,6 +23,7 @@ WORDLIST_PATH = Path(os.getenv("RHYME_WORDLIST", APP_DIR / "data" / "rhyme_words
 FULL_WORDLIST_PATH = Path(os.getenv("RHYME_FULL_WORDLIST", APP_DIR / "data" / "ru_RU.txt.gz"))
 VOWELS = "аеёиоуыэюя"
 WORD_RE = re.compile(r"[а-яё]+", re.IGNORECASE)
+MARKED_WORD_RE = re.compile(r"(?:[а-яё]\\u0301?)+", re.IGNORECASE)
 
 app = FastAPI(
     title="Russian Rhyme API",
@@ -34,8 +35,8 @@ app = FastAPI(
 class RhymeRequest(BaseModel):
     word1: str = Field(min_length=1, max_length=100)
     word2: str = Field(min_length=1, max_length=100)
-    stress1: int | None = Field(default=None, ge=1)
-    stress2: int | None = Field(default=None, ge=1)
+    stress1: int | None = Field(default=None, ge=0)
+    stress2: int | None = Field(default=None, ge=0)
 
 
 class SearchRequest(BaseModel):
@@ -183,7 +184,7 @@ def check_rhyme(data: RhymeRequest):
     """Backward-compatible endpoint used by n8n V28."""
     key1 = _rhyme_key(data.word1, data.stress1)
     key2 = _rhyme_key(data.word2, data.stress2)
-    result = do_rhyme(data.word1, data.word2, data.stress1, data.stress2)
+    result = key1 == key2
     return {
         "word1": data.word1,
         "word2": data.word2,
@@ -288,7 +289,7 @@ def check_lines(data: LinesRequest):
 def analyze_prosody(data: ProsodyRequest):
     marked, engine = _mark_stress(data.text)
     words = []
-    for match in WORD_RE.finditer(marked):
+    for match in MARKED_WORD_RE.finditer(marked):
         token = match.group(0)
         words.append({
             "word": token,
