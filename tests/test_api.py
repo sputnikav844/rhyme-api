@@ -14,7 +14,16 @@ def test_legacy_rhyme_contract():
     response = client.post("/rhyme", json={"word1": "рад", "word2": "брат"})
     assert response.status_code == 200
     body = response.json()
-    assert {"word1", "word2", "key1", "key2", "rhymes"} <= body.keys()
+    assert set(body) == {"word1", "word2", "key1", "key2", "rhymes"}
+    assert body["rhymes"] == main.do_rhyme("рад", "брат", None, None)
+
+    schema = client.get("/openapi.json").json()["components"]["schemas"]["LegacyRhymeRequest"]
+    assert schema["required"] == ["word1", "word2"]
+    assert schema["properties"]["word1"]["type"] == "string"
+    assert "minLength" not in schema["properties"]["word1"]
+    assert "maxLength" not in schema["properties"]["word1"]
+    assert schema["properties"]["stress1"]["type"] == "integer"
+    assert "minimum" not in schema["properties"]["stress1"]
 
 
 def test_check_endpoint():
