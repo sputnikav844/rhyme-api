@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import gzip
 import hashlib
+import io
 import json
 import os
 import tempfile
@@ -22,6 +23,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_WORDLIST = ROOT / "data" / "ru_RU.txt.gz"
 DEFAULT_OUTPUT = ROOT / "data" / "phonetic_index.json.gz"
 VOWELS = set("аеёиоуыэюя")
+BUILD_ALGORITHM = "sorted-unique-wordforms-gzip-mtime0-v1"
 
 
 def normalize_key(key: str) -> str:
@@ -34,46 +36,76 @@ def tail_key(key: str, size: int = 3) -> str:
 
 
 def build(wordlist: Path, output: Path) -> dict:
-    exact: dict[str, list[str]] = defaultdict(list)
-    near: dict[str, list[str]] = defaultdict(list)
-    count = 0
+    exact: dict[str, set[str]] = defaultdict(set)
+    near: dict[str, set[str]] = defaultdict(set)
+    seen: set[str] = set()
+    source_lines = 0
+    duplicate_entries = 0
     with gzip.open(wordlist, "rt", encoding="utf-8", errors="ignore") as stream:
         for line in stream:
+            source_lines += 1
             word = line.strip().lower()
             if not word or any(ch not in "абвгдеёжзийклмнопрстуфхцчшщъыьэюя" for ch in word):
                 continue
             if not any(ch in VOWELS for ch in word):
                 continue
+            if word in seen:
+                duplicate_entries += 1
+                continue
+            seen.add(word)
             try:
                 key = normalize_key(str(rhyme_key(word)))
             except Exception:
                 continue
             if not key:
                 continue
-            exact[key].append(word)
-            near[tail_key(key)].append(word)
-            count += 1
+            exact[key].add(word)
+            near[tail_key(key)].add(word)
 
+    exact_index = {key: sorted(words) for key, words in sorted(exact.items())}
+    near_index = {key: sorted(words) for key, words in sorted(near.items())}
+    unique_wordforms = sum(len(words) for words in exact_index.values())
     payload = {
         "schema_version": 1,
+        "build_algorithm": BUILD_ALGORITHM,
         "wordlist_sha256": hashlib.sha256(wordlist.read_bytes()).hexdigest(),
+        "source_lines": source_lines,
+        "duplicate_entries": duplicate_entries,
         "stress_mode": "phonetic-rhyme-default-heuristic",
         "tail_phonemes": 3,
-        "indexed_wordforms": count,
-        "exact": dict(exact),
-        "near": dict(near),
+        "indexed_wordforms": unique_wordforms,
+        "unique_wordforms": unique_wordforms,
+        "exact_key_count": len(exact_index),
+        "near_bucket_count": len(near_index),
+        "max_exact_bucket_size": max((len(v) for v in exact_index.values()), default=0),
+        "max_near_bucket_size": max((len(v) for v in near_index.values()), default=0),
+        "exact": exact_index,
+        "near": near_index,
     }
     output.parent.mkdir(parents=True, exist_ok=True)
     fd, temp_name = tempfile.mkstemp(prefix=output.name, dir=output.parent)
     os.close(fd)
     try:
-        with gzip.open(temp_name, "wt", encoding="utf-8", compresslevel=9) as target:
-            json.dump(payload, target, ensure_ascii=False, separators=(",", ":"))
+        # Fix gzip mtime and filename so identical inputs produce identical bytes.
+        with open(temp_name, "wb") as raw:
+            with gzip.GzipFile(filename="", mode="wb", fileobj=raw, compresslevel=9, mtime=0) as compressed:
+                with io.TextIOWrapper(compressed, encoding="utf-8", newline="") as target:
+                    json.dump(payload, target, ensure_ascii=False, separators=(",", ":"))
         os.replace(temp_name, output)
     finally:
         if os.path.exists(temp_name):
             os.unlink(temp_name)
-    return {"indexed_wordforms": count, "exact_keys": len(exact), "near_keys": len(near), "output": str(output)}
+    return {
+        "source_lines": source_lines,
+        "duplicate_entries": duplicate_entries,
+        "indexed_wordforms": unique_wordforms,
+        "exact_keys": len(exact_index),
+        "near_keys": len(near_index),
+        "max_exact_bucket_size": payload["max_exact_bucket_size"],
+        "max_near_bucket_size": payload["max_near_bucket_size"],
+        "wordlist_sha256": payload["wordlist_sha256"],
+        "output": str(output),
+    }
 
 
 def main() -> None:
@@ -83,7 +115,7 @@ def main() -> None:
     args = parser.parse_args()
     if not args.wordlist.exists():
         raise SystemExit(f"Wordlist not found: {args.wordlist}. Run scripts/download_dictionary.py first.")
-    print(json.dumps(build(args.wordlist, args.output), ensure_ascii=False))
+    print(json.dumps(build(args.wordlist, args.output), ensure_ascii=False, sort_keys=True))
 
 
 if __name__ == "__main__":
