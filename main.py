@@ -23,6 +23,7 @@ APP_DIR = Path(__file__).resolve().parent
 WORDLIST_PATH = Path(os.getenv("RHYME_WORDLIST", APP_DIR / "data" / "rhyme_words.txt"))
 FULL_WORDLIST_PATH = Path(os.getenv("RHYME_FULL_WORDLIST", APP_DIR / "data" / "ru_RU.txt.gz"))
 PHONETIC_INDEX_PATH = Path(os.getenv("RHYME_PHONETIC_INDEX", APP_DIR / "data" / "phonetic_index.json.gz"))
+STRESS_OVERRIDES_PATH = Path(os.getenv("RHYME_STRESS_OVERRIDES", APP_DIR / "data" / "stress_overrides.json"))
 VOWELS = "аеёиоуыэюя"
 WORD_RE = re.compile(r"[а-яё]+", re.IGNORECASE)
 MARKED_WORD_RE = re.compile(r"(?:[а-яё]\u0301?)+", re.IGNORECASE)
@@ -65,16 +66,60 @@ def _clean_word(word: str) -> str:
     return found[0]
 
 
+@lru_cache(maxsize=1)
+def _stress_overrides() -> dict[str, int]:
+    """Load curated zero-based stress positions; an absent file is harmless."""
+    if not STRESS_OVERRIDES_PATH.exists():
+        return {}
+    payload = json.loads(STRESS_OVERRIDES_PATH.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != 1 or payload.get("index_base") != 0:
+        raise RuntimeError("Unsupported stress override schema")
+    result = {}
+    for word, item in payload.get("overrides", {}).items():
+        position = item.get("stress")
+        if isinstance(position, int) and position >= 0:
+            result[word.lower()] = position
+    return result
+
+
+def _mark_word_with_stress(word: str, stress_position: int) -> str:
+    """Add a combining acute accent after the selected zero-based vowel."""
+    chars = list(word)
+    vowel_index = 0
+    for index, char in enumerate(chars):
+        if char.lower() in VOWELS:
+            if vowel_index == stress_position:
+                return "".join(chars[:index + 1]) + "\\u0301" + "".join(chars[index + 1:])
+            vowel_index += 1
+    return word
+
+
+def _apply_stress_overrides(text: str) -> str:
+    overrides = _stress_overrides()
+    if not overrides:
+        return text
+    # Remove model accents before token replacement so combining marks do not
+    # split a word into multiple regex matches.
+    unmarked = text.replace("\\u0301", "")
+
+    def replace(match: re.Match[str]) -> str:
+        word = match.group(0)
+        position = overrides.get(word.lower())
+        return _mark_word_with_stress(word, position) if position is not None else word
+
+    return WORD_RE.sub(replace, unmarked)
+
+
 def _mark_stress(text: str) -> tuple[str, str]:
-    """Return marked text and provider status; degrade gracefully on model errors."""
+    """Return marked text and provider status; apply reviewed lexical overrides."""
     try:
         from stressonnx import stress
         marked = stress(text, "ru", fallback=True)
-        return marked, "stressonnx"
+        return _apply_stress_overrides(marked), "stressonnx+lexicon"
     except ImportError:
-        return text, "unavailable"
+        return _apply_stress_overrides(text), "lexicon" if _stress_overrides() else "unavailable"
     except Exception:
-        return text, "error"
+        return _apply_stress_overrides(text), "lexicon" if _stress_overrides() else "error"
 
 
 def _stress_package_available() -> bool:
