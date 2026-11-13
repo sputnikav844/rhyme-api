@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "index_base": 0,
+  "description": "Curated word-level stress overrides. Entries are reviewed exceptions to the neural model, not a replacement for its general predictions.",
+  "overrides": {
+    "начался": {
+      "stress": 2,
+      "reason": "Past-tense reflexive form: начался́.",
+      "source": "manual_lexicographic_review"
+    }
+  }
+}
