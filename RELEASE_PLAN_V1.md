@@ -97,6 +97,8 @@ Not included in v1.0:
   strict/relaxed results, full-wordlist fallback and bundled-seed fallback.
   The search path uses pre-sorted buckets and avoids recomputing phonetic keys
   for every candidate.
+  The API rejects stale indexes that lack the required sorted-build algorithm ID,
+  preventing incorrect result ordering after an upgrade without an index rebuild.
 - CI benchmark on `ubuntu-latest`: 50 warm requests across five common words
   and strict/relaxed modes; median 4.30 ms, p95 5.22 ms, max 8.15 ms. Cold first
   request 2,466.65 ms, including lazy index/model initialization. The CI warm
