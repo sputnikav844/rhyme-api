@@ -41,13 +41,17 @@ def build(wordlist: Path, output: Path) -> dict:
     seen: set[str] = set()
     source_lines = 0
     duplicate_entries = 0
+    invalid_entries = 0
+    key_failures = 0
     with gzip.open(wordlist, "rt", encoding="utf-8", errors="ignore") as stream:
         for line in stream:
             source_lines += 1
             word = line.strip().lower()
             if not word or any(ch not in "абвгдеёжзийклмнопрстуфхцчшщъыьэюя" for ch in word):
+                invalid_entries += 1
                 continue
             if not any(ch in VOWELS for ch in word):
+                invalid_entries += 1
                 continue
             if word in seen:
                 duplicate_entries += 1
@@ -56,8 +60,10 @@ def build(wordlist: Path, output: Path) -> dict:
             try:
                 key = normalize_key(str(rhyme_key(word)))
             except Exception:
+                key_failures += 1
                 continue
             if not key:
+                key_failures += 1
                 continue
             exact[key].add(word)
             near[tail_key(key)].add(word)
@@ -71,6 +77,9 @@ def build(wordlist: Path, output: Path) -> dict:
         "wordlist_sha256": hashlib.sha256(wordlist.read_bytes()).hexdigest(),
         "source_lines": source_lines,
         "duplicate_entries": duplicate_entries,
+        "invalid_entries": invalid_entries,
+        "key_failures": key_failures,
+        "skipped_entries": invalid_entries + key_failures,
         "stress_mode": "phonetic-rhyme-default-heuristic",
         "tail_phonemes": 3,
         "indexed_wordforms": unique_wordforms,
@@ -98,6 +107,9 @@ def build(wordlist: Path, output: Path) -> dict:
     return {
         "source_lines": source_lines,
         "duplicate_entries": duplicate_entries,
+        "invalid_entries": invalid_entries,
+        "key_failures": key_failures,
+        "skipped_entries": invalid_entries + key_failures,
         "indexed_wordforms": unique_wordforms,
         "exact_keys": len(exact_index),
         "near_keys": len(near_index),
