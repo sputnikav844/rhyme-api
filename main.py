@@ -212,6 +212,15 @@ def _phonetic_tail(key: str, size: int = 3) -> str:
     return ".".join(parts[-size:]) if parts else ""
 
 
+def _classify_rhyme_keys(key_a: str, key_b: str, *, allow_near: bool = True) -> str:
+    """Use one phonetic-key classifier across pair and line endpoints."""
+    if key_a == key_b:
+        return "exact"
+    if allow_near and _phonetic_tail(key_a) and _phonetic_tail(key_a) == _phonetic_tail(key_b):
+        return "near"
+    return "none"
+
+
 def _rhyme_key(word: str, stress: int | None = None, *, infer: bool = True) -> str:
     # Prefer a model-inferred stress position; otherwise the phonetic library
     # falls back to its documented heuristic (last vowel / small exception list).
@@ -248,7 +257,9 @@ def check_rhyme(data: RhymeRequest):
     """Backward-compatible endpoint used by n8n V28."""
     key1 = _rhyme_key(data.word1, data.stress1)
     key2 = _rhyme_key(data.word2, data.stress2)
-    result = key1 == key2
+    # Preserve the original endpoint semantics used by existing clients:
+    # the boolean is produced by phonetic-rhyme's do_rhyme, not key equality.
+    result = do_rhyme(data.word1, data.word2, data.stress1, data.stress2)
     return {
         "word1": data.word1,
         "word2": data.word2,
@@ -261,12 +272,9 @@ def check_rhyme(data: RhymeRequest):
 @app.post("/rhyme/check")
 def check_pair(data: RhymeRequest):
     result = check_rhyme(data)
-    same_key = result["key1"] == result["key2"]
     return {
         **result,
-        "classification": "exact" if same_key else (
-            "near" if _phonetic_tail(result["key1"]) == _phonetic_tail(result["key2"]) else "none"
-        ),
+        "classification": _classify_rhyme_keys(result["key1"], result["key2"]),
         "confidence": "phonetic-engine",
         "note": "Фонетическая оценка не определяет смысловую и художественную уместность.",
     }
@@ -355,11 +363,10 @@ def check_lines(data: LinesRequest):
             a, b = details[i], details[j]
             if a["ending"] and b["ending"]:
                 ka, kb = a["rhyme_key"], b["rhyme_key"]
-                rhymes = do_rhyme(a["ending"], b["ending"], loose=True)
                 pairs.append({
                     "line_a": i + 1, "line_b": j + 1,
                     "word_a": a["ending"], "word_b": b["ending"],
-                    "classification": "exact" if ka == kb else ("near" if (not data.strict and rhymes) else "none"),
+                    "classification": _classify_rhyme_keys(ka, kb, allow_near=not data.strict),
                 })
     return {
         "lines": details,
