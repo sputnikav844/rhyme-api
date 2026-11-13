@@ -95,3 +95,34 @@ def test_reviewed_stress_positions_for_known_words():
     cases = [case for case in CASES if case["a"] == "молодость"]
     assert len(cases) == 2
     assert all(case["stress_a"] == 0 for case in cases)
+
+
+def test_named_phonetic_features_are_exercised_by_engine():
+    # Final devoicing: both final voiced stops surface as /t/.
+    assert rhyme_key("рад", stress=0) == "a.t"
+    assert rhyme_key("брат", stress=0) == "a.t"
+
+    # The ё / е contrast is phonemic under stress; ё maps to /o/, е to /e/.
+    assert rhyme_key("лёд", stress=0) == "o.t"
+    assert rhyme_key("лет", stress=0) == "e.t"
+
+    # The engine preserves final consonant softness.
+    assert rhyme_key("угол", stress=0) != rhyme_key("уголь", stress=0)
+
+    # The documented -ого -> /ovo/ orthographic rule is actually exercised.
+    assert rhyme_key("готова", stress=1) == "o.v.a"
+    assert rhyme_key("какого", stress=1) == "o.v.a"
+
+    # Post-vocalic consonant clusters remain part of the stressed tail.
+    assert rhyme_key("волк", stress=0) == rhyme_key("толк", stress=0)
+    assert rhyme_key("мост", stress=0) == rhyme_key("хвост", stress=0)
+
+
+def test_near_rhyme_cases_are_distinct_from_exact_rhymes():
+    near_cases = [case for case in CASES if case["category"] == "near_rhyme"]
+    assert len(near_cases) >= 6
+    for case in near_cases:
+        key_a = rhyme_key(case["a"], stress=case["stress_a"])
+        key_b = rhyme_key(case["b"], stress=case["stress_b"])
+        assert key_a != key_b
+        assert ".".join(key_a.split(".")[-3:]) == ".".join(key_b.split(".")[-3:])
