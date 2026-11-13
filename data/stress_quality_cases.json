@@ -451,16 +451,6 @@
     "source": "gramota_2025"
   },
   {
-    "word": "март",
-    "expected_stress": 0,
-    "source": "gramota_2025"
-  },
-  {
-    "word": "май",
-    "expected_stress": 0,
-    "source": "gramota_2025"
-  },
-  {
     "word": "университет",
     "expected_stress": 4,
     "source": "gramota_2025"
@@ -701,6 +691,16 @@
     "ambiguous": true,
     "ambiguity_group": "среда",
     "sense": "environment",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "праздник",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "вопрос",
+    "expected_stress": 1,
     "source": "gramota_2025"
   }
 ]
