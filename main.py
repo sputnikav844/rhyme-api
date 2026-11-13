@@ -114,8 +114,15 @@ def _wordlist() -> tuple[str, ...]:
 
 
 def _rhyme_key(word: str, stress: int | None = None) -> str:
-    # Keep the established phonetic-rhyme implementation as the authority.
-    return str(rhyme_key(word, stress=stress))
+    # Prefer a model-inferred stress position; otherwise the phonetic library
+    # falls back to its documented heuristic (last vowel / small exception list).
+    resolved_stress = stress
+    if resolved_stress is None:
+        marked, _engine = _mark_stress(word)
+        marked_index = _stress_index(marked)
+        if marked_index is not None:
+            resolved_stress = marked_index - 1  # phonetic-rhyme uses zero-based vowel indices
+    return str(rhyme_key(word, stress=resolved_stress))
 
 
 @app.get("/")
