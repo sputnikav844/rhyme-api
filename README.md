@@ -51,6 +51,25 @@ Both new pair and line checks use the same classifier:
 For `POST /rhyme/check-lines`, `strict: true` suppresses `near` results.
 The ending key uses the stress mark found in the complete line when available.
 
+### Stress quality evaluation
+
+Run the curated stress evaluation after installing `requirements.txt`:
+
+```bash
+python scripts/evaluate_stress.py
+```
+
+The reference set contains 100 distinct unambiguous isolated wordforms and 22
+contextual homograph examples. The evaluator reports raw-model and
+model-plus-overrides metrics separately; contextual disambiguation is reported
+as its own group. Stress indices are zero-based vowel positions. Reviewed
+word-level exceptions require a reason and a lexicographic source in
+`data/stress_overrides.json`. Corpus sources and conventions are documented in
+[`data/STRESS_CORPUS_SOURCES.md`](data/STRESS_CORPUS_SOURCES.md).
+
+These figures describe only the curated regression set, not general Russian
+stress accuracy.
+
 ## Tests
 
 ```bash
