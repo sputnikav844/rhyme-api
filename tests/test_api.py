@@ -53,3 +53,23 @@ def test_prosody_counts_syllables_without_stress_engine():
 def test_search_rejects_multiword_target():
     response = client.post("/rhyme/search", json={"word": "добрый день"})
     assert response.status_code == 422
+
+
+def test_rhyme_key_uses_model_stress_position(monkeypatch):
+    captured = {}
+    monkeypatch.setattr(main, "_mark_stress", lambda text: ("любов\\u0301ь", "test-model"))
+
+    def fake_rhyme_key(word, stress=None):
+        captured["word"] = word
+        captured["stress"] = stress
+        return "test-key"
+
+    monkeypatch.setattr(main, "rhyme_key", fake_rhyme_key)
+    assert main._rhyme_key("любовь") == "test-key"
+    assert captured == {"word": "любовь", "stress": 1}
+
+
+def test_explicit_stress_skips_model(monkeypatch):
+    monkeypatch.setattr(main, "_mark_stress", lambda text: (_ for _ in ()).throw(AssertionError("model called")))
+    monkeypatch.setattr(main, "rhyme_key", lambda word, stress=None: str(stress))
+    assert main._rhyme_key("любовь", stress=1) == "1"
