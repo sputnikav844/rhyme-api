@@ -11,13 +11,21 @@ ROOT = Path(__file__).resolve().parents[1]
 CASES = json.loads((ROOT / "data" / "rhyme_quality_cases.json").read_text(encoding="utf-8"))
 
 
+def classify(key_a: str, key_b: str) -> str:
+    if key_a == key_b:
+        return "exact"
+    tail_a = ".".join(key_a.split(".")[-3:])
+    tail_b = ".".join(key_b.split(".")[-3:])
+    return "near" if tail_a and tail_a == tail_b else "none"
+
+
 def main() -> None:
     correct = 0
     failures = []
     for case in CASES:
         key_a = str(rhyme_key(case["a"], stress=case["stress_a"]))
         key_b = str(rhyme_key(case["b"], stress=case["stress_b"]))
-        actual = "exact" if key_a == key_b else "none"
+        actual = classify(key_a, key_b)
         correct += actual == case["expected"]
         if actual != case["expected"]:
             failures.append({
@@ -32,7 +40,7 @@ def main() -> None:
         "correct": correct,
         "accuracy": round(correct / len(CASES), 4) if CASES else 1.0,
         "failures": failures,
-        "scope": "exact rhyme vs non-rhyme; explicit stress; curated regression set",
+        "scope": "exact/near/none classification; explicit stress; curated regression set",
     }, ensure_ascii=False, indent=2))
     if failures:
         raise SystemExit(1)
