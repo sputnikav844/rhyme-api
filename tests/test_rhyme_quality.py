@@ -89,3 +89,9 @@ def test_curated_rhyme_quality_corpus():
                 "category": case["category"],
             })
     assert not failures, json.dumps(failures, ensure_ascii=False, indent=2)
+
+def test_reviewed_stress_positions_for_known_words():
+    # Russian lexical stress: мо́лодость is stressed on its first vowel.
+    cases = [case for case in CASES if case["a"] == "молодость"]
+    assert len(cases) == 2
+    assert all(case["stress_a"] == 0 for case in cases)
