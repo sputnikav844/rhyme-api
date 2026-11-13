@@ -144,3 +144,18 @@ def test_search_limit_validation_boundaries():
     for limit in (0, 51):
         response = client.post("/rhyme/search", json={"word": "любовь", "limit": limit})
         assert response.status_code == 422
+
+
+def test_api_rejects_legacy_index_without_required_sorted_build_algorithm(tmp_path, monkeypatch):
+    import pytest
+
+    stale = tmp_path / "stale-index.json.gz"
+    with gzip.open(stale, "wt", encoding="utf-8") as stream:
+        json.dump({"schema_version": 1, "exact": {}, "near": {}}, stream)
+    monkeypatch.setattr(main, "PHONETIC_INDEX_PATH", stale)
+    main._phonetic_index.cache_clear()
+    try:
+        with pytest.raises(RuntimeError, match="rebuild it"):
+            main._phonetic_index()
+    finally:
+        main._phonetic_index.cache_clear()
