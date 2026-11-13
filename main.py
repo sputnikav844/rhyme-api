@@ -263,8 +263,9 @@ def health():
 @app.post("/rhyme")
 def check_rhyme(data: LegacyRhymeRequest):
     """Backward-compatible endpoint used by n8n V28."""
-    key1 = _rhyme_key(data.word1, data.stress1)
-    key2 = _rhyme_key(data.word2, data.stress2)
+    # Preserve the original endpoint's key generation (no model-inferred stress):
+    key1 = str(rhyme_key(data.word1, stress=data.stress1))
+    key2 = str(rhyme_key(data.word2, stress=data.stress2))
     # Preserve the original endpoint semantics used by existing clients:
     # the boolean is produced by phonetic-rhyme's do_rhyme, not key equality.
     result = do_rhyme(data.word1, data.word2, data.stress1, data.stress2)
@@ -280,6 +281,9 @@ def check_rhyme(data: LegacyRhymeRequest):
 @app.post("/rhyme/check")
 def check_pair(data: RhymeRequest):
     result = check_rhyme(data)
+    # New endpoint uses the model-aware stress resolver; legacy /rhyme does not.
+    result["key1"] = _rhyme_key(data.word1, data.stress1)
+    result["key2"] = _rhyme_key(data.word2, data.stress2)
     return {
         **result,
         "classification": _classify_rhyme_keys(result["key1"], result["key2"]),
