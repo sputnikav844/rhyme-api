@@ -264,7 +264,11 @@ def check_pair(data: RhymeRequest):
     same_key = result["key1"] == result["key2"]
     return {
         **result,
-        "classification": "exact" if same_key else ("near" if do_rhyme(data.word1, data.word2, loose=True) else "none"),
+        "classification": "exact" if same_key else (
+            "near" if do_rhyme(
+                data.word1, data.word2, data.stress1, data.stress2, loose=True
+            ) else "none"
+        ),
         "confidence": "phonetic-engine",
         "note": "Фонетическая оценка не определяет смысловую и художественную уместность.",
     }
