@@ -179,8 +179,8 @@ def test_search_uses_phonetic_index(monkeypatch):
     monkeypatch.setattr(main, "_phonetic_index", lambda: {
         "schema_version": 1,
         "indexed_wordforms": 3,
-        "exact": {"a.t": ["рад", "брат"]},
-        "near": {"a.t": ["рад", "брат", "взгляд"]},
+        "exact": {"a.t": ["брат", "рад"]},
+        "near": {"a.t": ["брат", "взгляд", "рад"]},
     })
     monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None, **kwargs: "a.t")
     response = client.post("/rhyme/search", json={"word": "рад"})
@@ -268,8 +268,8 @@ def test_index_search_recomputes_keys_only_for_returned_candidates(monkeypatch):
     monkeypatch.setattr(main, "_phonetic_index", lambda: {
         "schema_version": 1,
         "indexed_wordforms": 4,
-        "exact": {"k": ["кот", "рот", "сом", "дом"]},
-        "near": {"k": ["кот", "рот", "сом", "дом"]},
+        "exact": {"k": ["дом", "кот", "рот", "сом"]},
+        "near": {"k": ["дом", "кот", "рот", "сом"]},
     })
 
     def fake_key(word, stress=None, **kwargs):
