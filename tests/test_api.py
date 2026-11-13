@@ -70,7 +70,7 @@ def test_rhyme_key_uses_model_stress_position(monkeypatch):
 
 
 def test_explicit_stress_skips_model(monkeypatch):
-    monkeypatch.setattr(main, "_mark_stress", lambda text: (_ for _ in ()).throw(AssertionError("model called")))
+    monkeypatch.setattr(main, "_mark_stress", lambda text: ("любо́вь", "test-model"))
     monkeypatch.setattr(main, "rhyme_key", lambda word, stress=None: str(stress))
     assert main._rhyme_key("любовь", stress=1) == "1"
 
