@@ -979,5 +979,68 @@
     "expected": "none",
     "reason": "Both words have post-vocalic consonant clusters, but /lk/ and /st/ are different.",
     "category": "consonant_clusters"
+  },
+  {
+    "a": "молодость",
+    "stress_a": 0,
+    "b": "радость",
+    "stress_b": 0,
+    "expected": "near",
+    "category": "near_rhyme",
+    "reason": "Different full stressed tails share the final three phonemes /o.s.tʲ/."
+  },
+  {
+    "a": "молодость",
+    "stress_a": 0,
+    "b": "слабость",
+    "stress_b": 0,
+    "expected": "near",
+    "category": "near_rhyme",
+    "reason": "Different onset and consonant sequence before the shared final /o.s.tʲ/ tail."
+  },
+  {
+    "a": "молодость",
+    "stress_a": 0,
+    "b": "новость",
+    "stress_b": 0,
+    "expected": "near",
+    "category": "near_rhyme",
+    "reason": "The full stressed tails differ, but the last three phonemes /o.s.tʲ/ coincide."
+  },
+  {
+    "a": "молодость",
+    "stress_a": 0,
+    "b": "мудрость",
+    "stress_b": 0,
+    "expected": "near",
+    "category": "near_rhyme",
+    "reason": "Different stressed-vowel and consonant material precedes the common final /o.s.tʲ/."
+  },
+  {
+    "a": "молодость",
+    "stress_a": 0,
+    "b": "жадность",
+    "stress_b": 0,
+    "expected": "near",
+    "category": "near_rhyme",
+    "reason": "Different full stressed tails retain the same final three phonemes /o.s.tʲ/."
+  },
+  {
+    "a": "молодость",
+    "stress_a": 0,
+    "b": "твердость",
+    "stress_b": 0,
+    "expected": "near",
+    "category": "near_rhyme",
+    "reason": "Different stressed tail before the shared final phoneme sequence /o.s.tʲ/."
+  },
+  {
+    "a": "лёд",
+    "stress_a": 0,
+    "b": "мёд",
+    "stress_b": 0,
+    "expected": "exact",
+    "category": "yo_e",
+    "reason": "Both stressed ё vowels are realized as /o/ and the final consonant is devoiced to /t/."
   }
 ]
