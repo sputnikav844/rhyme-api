@@ -894,7 +894,7 @@
     "a": "молоко",
     "stress_a": 2,
     "b": "облако",
-    "stress_b": 1,
+    "stress_b": 0,
     "expected": "none",
     "reason": "different stressed syllables and phonetic endings",
     "category": "negative_control"
