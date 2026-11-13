@@ -60,15 +60,23 @@ def _clean_word(word: str) -> str:
 
 
 def _mark_stress(text: str) -> tuple[str, str]:
-    """Return marked text and provider status. No guessed stress is hidden."""
+    """Return marked text and provider status; degrade gracefully on model errors."""
     try:
         from stressonnx import stress
-        marked = stress(text, "ru")
+        marked = stress(text, "ru", fallback=True)
         return marked, "stressonnx"
     except ImportError:
         return text, "unavailable"
     except Exception:
         return text, "error"
+
+
+def _stress_package_available() -> bool:
+    try:
+        import importlib.util
+        return importlib.util.find_spec("stressonnx") is not None
+    except (ImportError, ValueError):
+        return False
 
 
 def _strip_marks(word: str) -> str:
@@ -117,14 +125,15 @@ def home():
 
 @app.get("/health")
 def health():
-    marked, provider = _mark_stress("проверка ударения")
+    # Liveness checks must not download or initialize a neural model.
+    available = _stress_package_available()
     return {
         "status": "ok",
         "version": app.version,
-        "stress_engine": provider,
+        "stress_engine": "installed" if available else "unavailable",
         "wordlist_size": len(_wordlist()),
-        "stress_engine_ready": provider == "stressonnx",
-        "stress_probe": marked,
+        "stress_engine_ready": available,
+        "stress_engine_note": "Модель загружается при первом запросе анализа ударений.",
     }
 
 
