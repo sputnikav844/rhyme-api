@@ -106,16 +106,16 @@ def _apply_stress_overrides(text: str) -> str:
     overrides = _stress_overrides()
     if not overrides:
         return text
-    # Remove model accents before token replacement so combining marks do not
-    # split a word into multiple regex matches.
-    unmarked = text.replace("\u0301", "")
 
+    # Match complete accented tokens. Only the overridden token is unmarked;
+    # stress marks on every other word must be preserved.
     def replace(match: re.Match[str]) -> str:
-        word = match.group(0)
+        marked_word = match.group(0)
+        word = marked_word.replace("\u0301", "")
         position = overrides.get(word.lower())
-        return _mark_word_with_stress(word, position) if position is not None else word
+        return _mark_word_with_stress(word, position) if position is not None else marked_word
 
-    return WORD_RE.sub(replace, unmarked)
+    return MARKED_WORD_RE.sub(replace, text)
 
 
 def _mark_stress(text: str) -> tuple[str, str]:
