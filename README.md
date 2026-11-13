@@ -80,7 +80,7 @@ python scripts/download_dictionary.py
 
 ## Licensing
 
-Application-code licensing: **Proprietary (All Rights Reserved)**. The application-code notice names **Ch.Andree** as copyright holder; see [`LICENSE`](LICENSE). No permission is granted to reuse the application source code without separate written authorization. This restriction applies only to the application code: runtime dependencies retain their own licences, and the word-form archive remains MPL-2.0 (see `data/DICTIONARY_LICENSE.txt`). `stressonnx` declares Apache-2.0 and documents upstream model attributions in its repository. Review all dependency and model licences before commercial deployment.
+Application-code licensing: **Proprietary (All Rights Reserved)**. The application-code notice names **Ch. Andrew** as copyright holder; see [`LICENSE`](LICENSE). No permission is granted to reuse the application source code without separate written authorization. This restriction applies only to the application code: runtime dependencies retain their own licences, and the word-form archive remains MPL-2.0 (see `data/DICTIONARY_LICENSE.txt`). `stressonnx` declares Apache-2.0 and documents upstream model attributions in its repository. Review all dependency and model licences before commercial deployment.
 
 
 ## Полный фонетический индекс
