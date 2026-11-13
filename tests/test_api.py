@@ -57,7 +57,7 @@ def test_search_rejects_multiword_target():
 
 def test_rhyme_key_uses_model_stress_position(monkeypatch):
     captured = {}
-    monkeypatch.setattr(main, "_mark_stress", lambda text: ("любо\\u0301вь", "test-model"))
+    monkeypatch.setattr(main, "_mark_stress", lambda text: ("любо́вь", "test-model"))
 
     def fake_rhyme_key(word, stress=None):
         captured["word"] = word
@@ -73,3 +73,18 @@ def test_explicit_stress_skips_model(monkeypatch):
     monkeypatch.setattr(main, "_mark_stress", lambda text: (_ for _ in ()).throw(AssertionError("model called")))
     monkeypatch.setattr(main, "rhyme_key", lambda word, stress=None: str(stress))
     assert main._rhyme_key("любовь", stress=1) == "1"
+
+
+
+def test_full_wordlist_loader_reads_gzip(tmp_path, monkeypatch):
+    import gzip
+
+    archive = tmp_path / "words.txt.gz"
+    with gzip.open(archive, "wt", encoding="utf-8") as stream:
+        stream.write("любовь\\nответ\\n# comment\\n123\\n")
+    monkeypatch.setattr(main, "FULL_WORDLIST_PATH", archive)
+    main._wordlist.cache_clear()
+    try:
+        assert main._wordlist() == ("любовь", "ответ")
+    finally:
+        main._wordlist.cache_clear()
