@@ -23,6 +23,7 @@ REQUIRED_CATEGORIES = {
     "consonant_clusters",
     "short_stressed_endings",
 }
+VOWELS = {"a", "o", "u", "i", "y", "e"}
 
 
 def classify(case):
@@ -45,12 +46,30 @@ def test_corpus_has_release_minimum_and_valid_annotations():
         assert case.get("category") in REQUIRED_CATEGORIES, f"Missing/unknown category in case {index}"
         assert isinstance(case["stress_a"], int) and case["stress_a"] >= 0, f"Invalid stress_a in case {index}"
         assert isinstance(case["stress_b"], int) and case["stress_b"] >= 0, f"Invalid stress_b in case {index}"
+        assert case["stress_a"] < sum(ch in "аеёиоуыэюя" for ch in case["a"]), f"stress_a out of range in case {index}"
+        assert case["stress_b"] < sum(ch in "аеёиоуыэюя" for ch in case["b"]), f"stress_b out of range in case {index}"
 
 
 def test_corpus_covers_all_release_phonetic_categories():
     covered = {case["category"] for case in CASES}
     missing = sorted(REQUIRED_CATEGORIES - covered)
     assert not missing, f"Missing required phonetic categories: {missing}"
+
+
+def test_consonant_cluster_category_contains_real_post_stress_clusters():
+    cluster_cases = [case for case in CASES if case["category"] == "consonant_clusters"]
+    assert cluster_cases, "No consonant-cluster cases"
+    def has_adjacent_consonants(word, stress):
+        tokens = rhyme_key(word, stress=stress).split(".")
+        return any(
+            left not in VOWELS and right not in VOWELS
+            for left, right in zip(tokens, tokens[1:])
+        )
+    assert any(
+        has_adjacent_consonants(case["a"], case["stress_a"])
+        or has_adjacent_consonants(case["b"], case["stress_b"])
+        for case in cluster_cases
+    ), "Consonant-cluster labels must be backed by actual adjacent consonants in the stressed tails"
 
 
 def test_curated_rhyme_quality_corpus():
