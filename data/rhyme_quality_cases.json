@@ -901,7 +901,7 @@
   },
   {
     "a": "молодость",
-    "stress_a": 1,
+    "stress_a": 0,
     "b": "гордость",
     "stress_b": 0,
     "expected": "near",
@@ -910,7 +910,7 @@
   },
   {
     "a": "молодость",
-    "stress_a": 1,
+    "stress_a": 0,
     "b": "скорость",
     "stress_b": 0,
     "expected": "near",
