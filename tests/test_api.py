@@ -125,9 +125,11 @@ def test_pair_check_classifies_near_rhyme(monkeypatch):
 
 def test_line_check_respects_strict_flag(monkeypatch):
     monkeypatch.setattr(main, "_mark_stress", lambda text: (text, "test"))
-    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None: word)
+    monkeypatch.setattr(
+        main, "_rhyme_key",
+        lambda word, stress=None: "x.a.b.c" if word == "дом" else "y.a.b.c"
+    )
     monkeypatch.setattr(main, "_syllables", lambda text: 1)
-    monkeypatch.setattr(main, "do_rhyme", lambda a, b, **kwargs: True)
     payload = {"lines": ["Первый дом", "Второй сом"]}
     strict = client.post("/rhyme/check-lines", json={**payload, "strict": True}).json()
     relaxed = client.post("/rhyme/check-lines", json={**payload, "strict": False}).json()
