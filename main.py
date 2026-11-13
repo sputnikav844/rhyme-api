@@ -89,7 +89,7 @@ def _mark_word_with_stress(word: str, stress_position: int) -> str:
     for index, char in enumerate(chars):
         if char.lower() in VOWELS:
             if vowel_index == stress_position:
-                return "".join(chars[:index + 1]) + "\\u0301" + "".join(chars[index + 1:])
+                return "".join(chars[:index + 1]) + "\u0301" + "".join(chars[index + 1:])
             vowel_index += 1
     return word
 
@@ -100,7 +100,7 @@ def _apply_stress_overrides(text: str) -> str:
         return text
     # Remove model accents before token replacement so combining marks do not
     # split a word into multiple regex matches.
-    unmarked = text.replace("\\u0301", "")
+    unmarked = text.replace("\u0301", "")
 
     def replace(match: re.Match[str]) -> str:
         word = match.group(0)
