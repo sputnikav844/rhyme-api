@@ -1,20 +1,146 @@
 [
-  {"a":"рад","stress_a":0,"b":"брат","stress_b":0,"expected":"exact","reason":"final devoicing and shared stressed tail"},
-  {"a":"кот","stress_a":0,"b":"рот","stress_b":0,"expected":"exact","reason":"same stressed vowel and final consonant"},
-  {"a":"год","stress_a":0,"b":"взлёт","stress_b":0,"expected":"exact","reason":"ё/о stressed-vowel equivalence in phonetic tail"},
-  {"a":"готова","stress_a":1,"b":"какого","stress_b":1,"expected":"exact","reason":"unstressed reduction and -ого pronunciation"},
-  {"a":"любовь","stress_a":1,"b":"кровь","stress_b":0,"expected":"exact","reason":"same stressed phonetic ending"},
-  {"a":"машина","stress_a":1,"b":"пружина","stress_b":1,"expected":"exact","reason":"same multi-syllable stressed ending"},
-  {"a":"дорога","stress_a":1,"b":"тревога","stress_b":1,"expected":"exact","reason":"same stressed ending"},
-  {"a":"река","stress_a":1,"b":"рука","stress_b":1,"expected":"exact","reason":"same stressed final syllable"},
-  {"a":"весна","stress_a":1,"b":"страна","stress_b":1,"expected":"exact","reason":"same stressed final syllable"},
-  {"a":"снег","stress_a":0,"b":"смех","stress_b":0,"expected":"exact","reason":"final devoicing and matching phonetic tail"},
-  {"a":"дом","stress_a":0,"b":"кот","stress_b":0,"expected":"none","reason":"different stressed vowel and coda"},
-  {"a":"рад","stress_a":0,"b":"мир","stress_b":0,"expected":"none","reason":"different vowel and coda"},
-  {"a":"кот","stress_a":0,"b":"лес","stress_b":0,"expected":"none","reason":"different phonetic ending"},
-  {"a":"море","stress_a":0,"b":"гора","stress_b":1,"expected":"none","reason":"different stressed phonetic tails"},
-  {"a":"машина","stress_a":1,"b":"дорога","stress_b":1,"expected":"none","reason":"different stressed vowels and endings"},
-  {"a":"любовь","stress_a":1,"b":"ответ","stress_b":1,"expected":"none","reason":"different stressed phonetic tails"},
-  {"a":"река","stress_a":1,"b":"гора","stress_b":1,"expected":"none","reason":"different stressed vowel quality"},
-  {"a":"снег","stress_a":0,"b":"дом","stress_b":0,"expected":"none","reason":"different phonetic coda"}
+  {
+    "a": "рад",
+    "stress_a": 0,
+    "b": "брат",
+    "stress_b": 0,
+    "expected": "exact",
+    "reason": "final devoicing and shared stressed tail"
+  },
+  {
+    "a": "кот",
+    "stress_a": 0,
+    "b": "рот",
+    "stress_b": 0,
+    "expected": "exact",
+    "reason": "same stressed vowel and final consonant"
+  },
+  {
+    "a": "год",
+    "stress_a": 0,
+    "b": "взлёт",
+    "stress_b": 0,
+    "expected": "exact",
+    "reason": "ё/о stressed-vowel equivalence in phonetic tail"
+  },
+  {
+    "a": "готова",
+    "stress_a": 1,
+    "b": "какого",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "unstressed reduction and -ого pronunciation"
+  },
+  {
+    "a": "любовь",
+    "stress_a": 1,
+    "b": "кровь",
+    "stress_b": 0,
+    "expected": "exact",
+    "reason": "same stressed phonetic ending"
+  },
+  {
+    "a": "машина",
+    "stress_a": 1,
+    "b": "пружина",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same multi-syllable stressed ending"
+  },
+  {
+    "a": "дорога",
+    "stress_a": 1,
+    "b": "тревога",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed ending"
+  },
+  {
+    "a": "река",
+    "stress_a": 1,
+    "b": "рука",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final syllable"
+  },
+  {
+    "a": "весна",
+    "stress_a": 1,
+    "b": "страна",
+    "stress_b": 1,
+    "expected": "exact",
+    "reason": "same stressed final syllable"
+  },
+  {
+    "a": "снег",
+    "stress_a": 0,
+    "b": "смех",
+    "stress_b": 0,
+    "expected": "none",
+    "reason": "different final consonants /k/ and /x/"
+  },
+  {
+    "a": "дом",
+    "stress_a": 0,
+    "b": "кот",
+    "stress_b": 0,
+    "expected": "none",
+    "reason": "different stressed vowel and coda"
+  },
+  {
+    "a": "рад",
+    "stress_a": 0,
+    "b": "мир",
+    "stress_b": 0,
+    "expected": "none",
+    "reason": "different vowel and coda"
+  },
+  {
+    "a": "кот",
+    "stress_a": 0,
+    "b": "лес",
+    "stress_b": 0,
+    "expected": "none",
+    "reason": "different phonetic ending"
+  },
+  {
+    "a": "море",
+    "stress_a": 0,
+    "b": "гора",
+    "stress_b": 1,
+    "expected": "none",
+    "reason": "different stressed phonetic tails"
+  },
+  {
+    "a": "машина",
+    "stress_a": 1,
+    "b": "дорога",
+    "stress_b": 1,
+    "expected": "none",
+    "reason": "different stressed vowels and endings"
+  },
+  {
+    "a": "любовь",
+    "stress_a": 1,
+    "b": "ответ",
+    "stress_b": 1,
+    "expected": "none",
+    "reason": "different stressed phonetic tails"
+  },
+  {
+    "a": "река",
+    "stress_a": 1,
+    "b": "реки",
+    "stress_b": 0,
+    "expected": "none",
+    "reason": "different stressed vowels /a/ and /e/"
+  },
+  {
+    "a": "снег",
+    "stress_a": 0,
+    "b": "дом",
+    "stress_b": 0,
+    "expected": "none",
+    "reason": "different phonetic coda"
+  }
 ]
