@@ -52,7 +52,7 @@ def test_search_deduplicates_orders_and_applies_limit_after_sort(monkeypatch):
         "кот": "x.a.b.c",
         "брат": "x.a.b.c",
         "рад": "x.a.b.c",
-        "срочно": "x.a.b.c",
+        "срочно": "y.a.b.c",
     }
     monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None, **kwargs: keys[word])
     client = TestClient(main.app)
