@@ -38,12 +38,13 @@ def test_check_endpoint():
 def test_search_uses_supplied_candidates(monkeypatch):
     monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None, **kwargs: "test-key" if word in {"кот", "рот"} else word)
     response = client.post("/rhyme/search", json={
-        "word": "кот", "candidates": ["рот", "дом", "кот"], "limit": 10
+        "word": "кот", "candidates": ["рот", "дом", "кот", "рот", "дом"], "limit": 10
     })
     assert response.status_code == 200
     body = response.json()
     assert body["source"] == "request_candidates"
     assert any(item["word"] == "рот" for item in body["results"])
+    assert len([item["word"] for item in body["results"]]) == len(set(item["word"] for item in body["results"]))
 
 
 def test_lines_endpoint():
@@ -260,3 +261,23 @@ def test_line_endpoint_passes_stress_from_full_line_to_rhyme_key(monkeypatch):
     })
     assert response.status_code == 200
     assert captured == {"word": "любовь", "stress": 1}
+
+
+def test_index_search_recomputes_keys_only_for_returned_candidates(monkeypatch):
+    calls = []
+    monkeypatch.setattr(main, "_phonetic_index", lambda: {
+        "schema_version": 1,
+        "indexed_wordforms": 4,
+        "exact": {"k": ["кот", "рот", "сом", "дом"]},
+        "near": {"k": ["кот", "рот", "сом", "дом"]},
+    })
+
+    def fake_key(word, stress=None, **kwargs):
+        calls.append(word)
+        return "k"
+
+    monkeypatch.setattr(main, "_rhyme_key", fake_key)
+    response = client.post("/rhyme/search", json={"word": "дом", "limit": 1})
+    assert response.status_code == 200
+    assert [item["word"] for item in response.json()["results"]] == ["кот"]
+    assert calls == ["дом"]
