@@ -1,62 +1,706 @@
 [
   {
     "word": "молоко",
-    "expected_stress": 2
+    "expected_stress": 2,
+    "source": "gramota_2025"
   },
   {
     "word": "собака",
-    "expected_stress": 1
+    "expected_stress": 1,
+    "source": "gramota_2025"
   },
   {
     "word": "окно",
-    "expected_stress": 1
+    "expected_stress": 1,
+    "source": "gramota_2025"
   },
   {
     "word": "звонит",
-    "expected_stress": 1
+    "expected_stress": 1,
+    "source": "gramota_2025"
   },
   {
     "word": "каталог",
-    "expected_stress": 2
+    "expected_stress": 2,
+    "source": "gramota_2025"
   },
   {
     "word": "договор",
-    "expected_stress": 2
+    "expected_stress": 2,
+    "source": "gramota_2025"
   },
   {
     "word": "торты",
-    "expected_stress": 0
+    "expected_stress": 0,
+    "source": "gramota_2025"
   },
   {
     "word": "свёкла",
-    "expected_stress": 0
+    "expected_stress": 0,
+    "source": "gramota_2025",
+    "yo_is_stressed": true
   },
   {
     "word": "жалюзи",
-    "expected_stress": 2
+    "expected_stress": 2,
+    "source": "gramota_2025"
   },
   {
     "word": "красивее",
-    "expected_stress": 1
+    "expected_stress": 1,
+    "source": "gramota_2025"
   },
   {
     "word": "средства",
-    "expected_stress": 0
+    "expected_stress": 0,
+    "source": "gramota_2025"
   },
   {
     "word": "начался",
-    "expected_stress": 2
+    "expected_stress": 2,
+    "source": "gramota_2025"
   },
   {
     "word": "приняла",
-    "expected_stress": 2
+    "expected_stress": 2,
+    "source": "gramota_2025"
   },
   {
     "word": "облегчить",
-    "expected_stress": 2
+    "expected_stress": 2,
+    "source": "gramota_2025"
   },
   {
     "word": "вероисповедание",
-    "expected_stress": 4
+    "expected_stress": 4,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "банан",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "ананас",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "апельсин",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "карандаш",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "телефон",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "самолёт",
+    "expected_stress": 2,
+    "source": "gramota_2025",
+    "yo_is_stressed": true
+  },
+  {
+    "word": "аэропорт",
+    "expected_stress": 3,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "велосипед",
+    "expected_stress": 3,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "яблоко",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "дерево",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "озеро",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "солнце",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "сердце",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "улица",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "комната",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "женщина",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "девочка",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "девушка",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "книга",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "школа",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "работа",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "погода",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "страна",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "семья",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "земля",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "неделя",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "кошка",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "корова",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "лошадь",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "красивый",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "молодой",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "хороший",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "большой",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "маленький",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "русский",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "английский",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "синий",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "зелёный",
+    "expected_stress": 1,
+    "source": "gramota_2025",
+    "yo_is_stressed": true
+  },
+  {
+    "word": "жёлтый",
+    "expected_stress": 0,
+    "source": "gramota_2025",
+    "yo_is_stressed": true
+  },
+  {
+    "word": "чёрный",
+    "expected_stress": 0,
+    "source": "gramota_2025",
+    "yo_is_stressed": true
+  },
+  {
+    "word": "голубой",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "белый",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "хорошо",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "быстро",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "вчера",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "сегодня",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "завтра",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "всегда",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "нельзя",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "можно",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "спасибо",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "человек",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "мужчина",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "ребёнок",
+    "expected_stress": 1,
+    "source": "gramota_2025",
+    "yo_is_stressed": true
+  },
+  {
+    "word": "дети",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "друзья",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "люди",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "город",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "воскресенье",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "понедельник",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "вторник",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "четверг",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "пятница",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "суббота",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "январь",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "февраль",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "апрель",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "сентябрь",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "октябрь",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "ноябрь",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "декабрь",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "август",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "июль",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "июнь",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "март",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "май",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "университет",
+    "expected_stress": 4,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "библиотека",
+    "expected_stress": 3,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "компьютер",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "институт",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "оптовый",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "блага",
+    "expected_stress": 0,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "диспансер",
+    "expected_stress": 2,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "звонишь",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "звонят",
+    "expected_stress": 1,
+    "source": "gramota_2025"
+  },
+  {
+    "word": "замок",
+    "expected_stress": 0,
+    "context": "Старинный замок возвышался над рекой.",
+    "ambiguous": true,
+    "ambiguity_group": "замок",
+    "sense": "castle",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "замок",
+    "expected_stress": 1,
+    "context": "Дверной замок заедал и не открывался.",
+    "ambiguous": true,
+    "ambiguity_group": "замок",
+    "sense": "lock",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "мука",
+    "expected_stress": 0,
+    "context": "Долгая мука изматывала путника.",
+    "ambiguous": true,
+    "ambiguity_group": "мука",
+    "sense": "torment",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "мука",
+    "expected_stress": 1,
+    "context": "Мука просыпалась из бумажного пакета.",
+    "ambiguous": true,
+    "ambiguity_group": "мука",
+    "sense": "flour",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "атлас",
+    "expected_stress": 0,
+    "context": "Атлас мира лежал на письменном столе.",
+    "ambiguous": true,
+    "ambiguity_group": "атлас",
+    "sense": "map",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "атлас",
+    "expected_stress": 1,
+    "context": "Атлас блестел на вечернем платье.",
+    "ambiguous": true,
+    "ambiguity_group": "атлас",
+    "sense": "fabric",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "орган",
+    "expected_stress": 0,
+    "context": "Орган звучал во время службы в соборе.",
+    "ambiguous": true,
+    "ambiguity_group": "орган",
+    "sense": "musical instrument",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "орган",
+    "expected_stress": 1,
+    "context": "Этот орган отвечает за фильтрацию крови.",
+    "ambiguous": true,
+    "ambiguity_group": "орган",
+    "sense": "body organ",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "ирис",
+    "expected_stress": 0,
+    "context": "Ирис расцвёл на клумбе ранней весной.",
+    "ambiguous": true,
+    "ambiguity_group": "ирис",
+    "sense": "flower",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "ирис",
+    "expected_stress": 1,
+    "context": "Ирис растаял во рту после чая.",
+    "ambiguous": true,
+    "ambiguity_group": "ирис",
+    "sense": "candy",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "плачу",
+    "expected_stress": 0,
+    "context": "Я плачу от радости и облегчения.",
+    "ambiguous": true,
+    "ambiguity_group": "плачу",
+    "sense": "cry",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "плачу",
+    "expected_stress": 1,
+    "context": "Я плачу за билет банковской картой.",
+    "ambiguous": true,
+    "ambiguity_group": "плачу",
+    "sense": "pay",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "трусы",
+    "expected_stress": 0,
+    "context": "Трусы испугались внезапного шума.",
+    "ambiguous": true,
+    "ambiguity_group": "трусы",
+    "sense": "cowards",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "трусы",
+    "expected_stress": 1,
+    "context": "Чистые трусы лежали в верхнем ящике.",
+    "ambiguous": true,
+    "ambiguity_group": "трусы",
+    "sense": "underwear",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "село",
+    "expected_stress": 1,
+    "context": "Село расположено на берегу большой реки.",
+    "ambiguous": true,
+    "ambiguity_group": "село",
+    "sense": "village",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "село",
+    "expected_stress": 0,
+    "context": "Солнце село за тёмный лес.",
+    "ambiguous": true,
+    "ambiguity_group": "село",
+    "sense": "set",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "дорога",
+    "expected_stress": 1,
+    "context": "Дорога вела через поле к станции.",
+    "ambiguous": true,
+    "ambiguity_group": "дорога",
+    "sense": "road",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "дорога",
+    "expected_stress": 2,
+    "context": "Эта память дорога мне с детства.",
+    "ambiguous": true,
+    "ambiguity_group": "дорога",
+    "sense": "dear",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "потом",
+    "expected_stress": 1,
+    "context": "Потом мы вернулись домой поздно вечером.",
+    "ambiguous": true,
+    "ambiguity_group": "потом",
+    "sense": "later",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "потом",
+    "expected_stress": 0,
+    "context": "Он вытер лоб потом после тяжёлой работы.",
+    "ambiguous": true,
+    "ambiguity_group": "потом",
+    "sense": "sweat",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "среда",
+    "expected_stress": 1,
+    "context": "Завтра среда, и музей будет открыт.",
+    "ambiguous": true,
+    "ambiguity_group": "среда",
+    "sense": "Wednesday",
+    "source": "gramota_2025"
+  },
+  {
+    "word": "среда",
+    "expected_stress": 0,
+    "context": "Окружающая среда влияет на здоровье человека.",
+    "ambiguous": true,
+    "ambiguity_group": "среда",
+    "sense": "environment",
+    "source": "gramota_2025"
   }
 ]
