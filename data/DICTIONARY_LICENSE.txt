@@ -1,0 +1,21 @@
+Russian word-form data
+======================
+
+Dataset: ru_RU.txt.gz
+Upstream: Goudron/ru-spelling-dictionary
+Release: v1.0.9
+Source: https://github.com/Goudron/ru-spelling-dictionary
+Data licence: Mozilla Public License 2.0 (MPL-2.0)
+Published word-form list: 2,367,159 UTF-8 forms
+SHA-256: 8ac7fbc26204d437d3e8be8609ba6a6e2a0afae17548cdfa0ff01c13de55e3fa
+
+The archive is not committed to this repository. Run:
+    python scripts/download_dictionary.py
+
+The downloader verifies the pinned SHA-256 before writing data/ru_RU.txt.gz.
+When redistributing the dataset or modified source files, comply with MPL-2.0,
+retain required notices, and provide the corresponding source form as required
+by the licence. This notice is attribution, not legal advice.
+
+The API can run without this archive, but then only the small starter list
+data/rhyme_words.txt is available.
