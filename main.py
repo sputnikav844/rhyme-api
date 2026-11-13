@@ -121,11 +121,37 @@ def _wordlist() -> tuple[str, ...]:
     return tuple(dict.fromkeys(values))
 
 
-def _rhyme_key(word: str, stress: int | None = None) -> str:
+_FINAL_SOUND = {
+    "б": "п", "п": "п", "д": "т", "т": "т", "г": "к", "к": "к",
+    "з": "с", "с": "с", "ж": "ш", "ш": "ш", "в": "ф", "ф": "ф",
+}
+
+
+def _spelling_bucket_key(word: str) -> str:
+    cleaned = word.rstrip("ьъ")
+    if not cleaned:
+        return ""
+    ending = cleaned[-2:]
+    if ending:
+        ending = ending[:-1] + _FINAL_SOUND.get(ending[-1], ending[-1])
+    return ending
+
+
+@lru_cache(maxsize=1)
+def _wordlist_suffix_index() -> dict[str, tuple[str, ...]]:
+    buckets: dict[str, list[str]] = {}
+    for word in _wordlist():
+        key = _spelling_bucket_key(word)
+        if key:
+            buckets.setdefault(key, []).append(word)
+    return {key: tuple(words) for key, words in buckets.items()}
+
+
+def _rhyme_key(word: str, stress: int | None = None, *, infer: bool = True) -> str:
     # Prefer a model-inferred stress position; otherwise the phonetic library
     # falls back to its documented heuristic (last vowel / small exception list).
     resolved_stress = stress
-    if resolved_stress is None:
+    if resolved_stress is None and infer:
         marked, _engine = _mark_stress(word)
         marked_index = _stress_index(marked)
         if marked_index is not None:
@@ -182,8 +208,8 @@ def check_pair(data: RhymeRequest):
 @app.post("/rhyme/search")
 def search_rhymes(data: SearchRequest):
     target = _clean_word(data.word)
-    pool = data.candidates if data.candidates is not None else list(_wordlist())
     target_key = _rhyme_key(target)
+    pool = data.candidates if data.candidates is not None else _wordlist_suffix_index().get(_spelling_bucket_key(target), ())
     results = []
     seen = {target}
     for raw in pool:
@@ -195,7 +221,7 @@ def search_rhymes(data: SearchRequest):
             continue
         seen.add(candidate)
         try:
-            key = _rhyme_key(candidate)
+            key = _rhyme_key(candidate, infer=False)
             exact = key == target_key
             if exact or (not data.strict and do_rhyme(target, candidate)):
                 results.append({
