@@ -106,7 +106,9 @@ Not included in v1.0:
   p95 threshold is 1,000 ms.
 - Stress corpus references and evaluation instructions are documented in
   `data/STRESS_CORPUS_SOURCES.md` and README.
-- **Next: Gate 5 — Release candidate.** Gate 1 and Gate 5 remain open.
+- **Gate 1 — Compatibility and API behaviour: implementation complete; final CI confirmation pending.** The legacy /rhyme request/response fields, original key generation and do_rhyme boolean semantics remain covered by contract tests and were compared with main during development. New endpoint success paths, validation boundaries and edge cases are covered by API tests. README now documents request examples and the distinct legacy validation behaviour.
+- **Gate 5 — Release candidate: preparation in progress.** README now records installation, index build, endpoints, examples, limitations, dictionary/dependency licensing notes and rollback considerations. INTEGRATION_CHECKLIST_V1.md records the future isolated integration and rollback checks. The application-code licence is still not declared; the repository owner must choose one before public redistribution or commercial integration. A versioned candidate tag/branch must not be issued until all release gates and CI are confirmed.
+- Final CI confirmation for the Gate 1 test additions and these documentation commits is pending. No release tag has been created.
 
 ## Safety boundary
 
