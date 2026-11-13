@@ -66,6 +66,13 @@ def test_search_deduplicates_orders_and_applies_limit_after_sort(monkeypatch):
     assert [item["word"] for item in body["results"]] == ["брат", "рад"]
     assert [item["match"] for item in body["results"]] == ["exact", "exact"]
 
+    relaxed = client.post("/rhyme/search", json={
+        "word": "кот", "strict": False, "limit": 3
+    }).json()
+    assert [item["word"] for item in relaxed["results"]] == ["брат", "рад", "срочно"]
+    assert [item["match"] for item in relaxed["results"]] == ["exact", "exact", "near"]
+    assert relaxed["total_matches"] == 3
+
 
 def test_search_missing_index_uses_full_wordlist_fallback(monkeypatch):
     monkeypatch.setattr(main, "_phonetic_index", lambda: {})
