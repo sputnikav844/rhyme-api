@@ -7,6 +7,7 @@ never presented as certain when the model cannot resolve a word.
 from __future__ import annotations
 
 import gzip
+from bisect import bisect_left
 import json
 import os
 import re
@@ -296,55 +297,106 @@ def check_pair(data: RhymeRequest):
     }
 
 
+def _index_contains_sorted_word(words: list[str], target: str) -> bool:
+    """Binary-search a bucket sorted by (syllable count, word)."""
+    target_key = (_syllables(target), target)
+    position = bisect_left(words, target_key, key=lambda word: (_syllables(word), word))
+    return position < len(words) and words[position] == target
+
+
 @app.post("/rhyme/search")
 def search_rhymes(data: SearchRequest):
     target = _clean_word(data.word)
     target_key = _rhyme_key(target, data.stress)
     index = _phonetic_index() if data.candidates is None else {}
-    if data.candidates is not None:
-        pool = data.candidates
-        source = "request_candidates"
-    elif index:
-        exact_pool = index.get("exact", {}).get(target_key, [])
-        near_pool = [] if data.strict else index.get("near", {}).get(_phonetic_tail(target_key), [])
-        pool = list(dict.fromkeys([*exact_pool, *near_pool]))
-        source = "full_phonetic_index"
-    else:
-        pool = _wordlist_suffix_index().get(_spelling_bucket_key(target), ())
-        source = "full_wordlist_spelling_fallback" if FULL_WORDLIST_PATH.exists() else "bundled_seed_lexicon"
 
-    results = []
-    seen = {target}
-    for raw in pool:
-        try:
-            candidate = _clean_word(raw)
-        except HTTPException:
-            continue
-        if candidate in seen:
-            continue
-        seen.add(candidate)
-        try:
-            key = _rhyme_key(candidate, infer=False)
-            exact = key == target_key
-            near = not exact and not data.strict and _phonetic_tail(key) == _phonetic_tail(target_key)
-            if exact or near:
+    if data.candidates is None and index:
+        exact_pool = index.get("exact", {}).get(target_key, [])
+        tail = _phonetic_tail(target_key)
+        near_pool = index.get("near", {}).get(tail, []) if not data.strict else []
+        results = []
+
+        for candidate in exact_pool:
+            if candidate == target:
+                continue
+            results.append({
+                "word": candidate,
+                "rhyme_key": target_key,
+                "match": "exact",
+                "syllables": _syllables(candidate),
+            })
+            if len(results) >= data.limit:
+                break
+
+        if not data.strict and len(results) < data.limit:
+            # The exact bucket is smaller than the remaining result window,
+            # so this set stays bounded by the requested limit.
+            exact_words = set(exact_pool)
+            for candidate in near_pool:
+                if candidate == target or candidate in exact_words:
+                    continue
+                key = _rhyme_key(candidate, infer=False)
                 results.append({
                     "word": candidate,
                     "rhyme_key": key,
-                    "match": "exact" if exact else "near",
+                    "match": "near",
                     "syllables": _syllables(candidate),
                 })
-        except Exception:
-            continue
-    results.sort(key=lambda item: (item["match"] != "exact", item["syllables"], item["word"]))
+                if len(results) >= data.limit:
+                    break
+
+        target_in_exact = _index_contains_sorted_word(exact_pool, target)
+        if data.strict:
+            total_matches = len(exact_pool) - int(target_in_exact)
+            dictionary_size = len(exact_pool)
+        else:
+            target_in_near = _index_contains_sorted_word(near_pool, target)
+            total_matches = len(near_pool) - int(target_in_near)
+            dictionary_size = len(near_pool)
+        source = "full_phonetic_index"
+    else:
+        if data.candidates is not None:
+            pool = data.candidates
+            source = "request_candidates"
+        else:
+            pool = _wordlist_suffix_index().get(_spelling_bucket_key(target), ())
+            source = "full_wordlist_spelling_fallback" if FULL_WORDLIST_PATH.exists() else "bundled_seed_lexicon"
+
+        results = []
+        seen = {target}
+        for raw in pool:
+            try:
+                candidate = _clean_word(raw)
+            except HTTPException:
+                continue
+            if candidate in seen:
+                continue
+            seen.add(candidate)
+            try:
+                key = _rhyme_key(candidate, infer=False)
+                exact = key == target_key
+                near = not exact and not data.strict and _phonetic_tail(key) == _phonetic_tail(target_key)
+                if exact or near:
+                    results.append({
+                        "word": candidate,
+                        "rhyme_key": key,
+                        "match": "exact" if exact else "near",
+                        "syllables": _syllables(candidate),
+                    })
+            except Exception:
+                continue
+        results.sort(key=lambda item: (item["match"] != "exact", item["syllables"], item["word"]))
+        total_matches = len(results)
+        dictionary_size = len(pool)
+
     return {
         "word": target,
         "rhyme_key": target_key,
-        "count": min(len(results), data.limit),
-        "total_matches": len(results),
+        "count": min(total_matches, data.limit),
+        "total_matches": total_matches,
         "results": results[:data.limit],
         "source": source,
-        "dictionary_size": len(pool),
+        "dictionary_size": dictionary_size,
         "index_stats": {
             "indexed_wordforms": index.get("indexed_wordforms") if index else None,
             "phonetic_keys": len(index.get("exact", {})) if index else None,
