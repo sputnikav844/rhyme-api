@@ -239,3 +239,20 @@ def test_line_endpoint_strict_mode_disables_near_classification(monkeypatch):
     strict = client.post("/rhyme/check-lines", json={**payload, "strict": True}).json()
     assert relaxed["pairs"][0]["classification"] == "near"
     assert strict["pairs"][0]["classification"] == "none"
+
+
+def test_line_endpoint_passes_stress_from_full_line_to_rhyme_key(monkeypatch):
+    captured = {}
+    monkeypatch.setattr(main, "_mark_stress", lambda text: ("Первая любо́вь", "test"))
+    def fake_key(word, stress=None, **kwargs):
+        captured["word"] = word
+        captured["stress"] = stress
+        return "o.f"
+    monkeypatch.setattr(main, "_rhyme_key", fake_key)
+    monkeypatch.setattr(main, "_syllables", lambda text: 2)
+
+    response = client.post("/rhyme/check-lines", json={
+        "lines": ["Первая любовь", "Вторая любовь"]
+    })
+    assert response.status_code == 200
+    assert captured == {"word": "любовь", "stress": 1}
