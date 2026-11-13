@@ -188,3 +188,43 @@ def test_pair_check_passes_explicit_stress_to_near_matcher(monkeypatch):
     assert response.json()["classification"] == "near"
     assert response.json()["key1"] == "x.a.b.c"
     assert response.json()["key2"] == "y.a.b.c"
+
+
+def test_pair_and_line_endpoints_share_phonetic_classification(monkeypatch):
+    keys = {
+        "точно": "v.a.b.c",
+        "срочно": "x.a.b.c",
+        "иначе": "q.d.e.f",
+    }
+    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None, **kwargs: keys[word])
+    monkeypatch.setattr(main, "_mark_stress", lambda text: (text, "test"))
+    monkeypatch.setattr(main, "_syllables", lambda text: 1)
+
+    for word_a, word_b, expected in [
+        ("точно", "точно", "exact"),
+        ("точно", "срочно", "near"),
+        ("точно", "иначе", "none"),
+    ]:
+        pair = client.post("/rhyme/check", json={
+            "word1": word_a, "word2": word_b, "stress1": 0, "stress2": 0
+        })
+        lines = client.post("/rhyme/check-lines", json={
+            "lines": [f"Первая {word_a}", f"Вторая {word_b}"],
+            "strict": False,
+        })
+        assert pair.status_code == 200
+        assert lines.status_code == 200
+        assert pair.json()["classification"] == expected
+        assert lines.json()["pairs"][0]["classification"] == expected
+
+
+def test_line_endpoint_strict_mode_disables_near_classification(monkeypatch):
+    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None, **kwargs:
+                        "a.b.c.d" if word == "точно" else "x.b.c.d")
+    monkeypatch.setattr(main, "_mark_stress", lambda text: (text, "test"))
+    monkeypatch.setattr(main, "_syllables", lambda text: 1)
+    payload = {"lines": ["Первая точно", "Вторая срочно"]}
+    relaxed = client.post("/rhyme/check-lines", json={**payload, "strict": False}).json()
+    strict = client.post("/rhyme/check-lines", json={**payload, "strict": True}).json()
+    assert relaxed["pairs"][0]["classification"] == "near"
+    assert strict["pairs"][0]["classification"] == "none"
