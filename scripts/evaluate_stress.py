@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import json
 import sys
-import unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,7 +34,9 @@ OVERRIDE_DATA = json.loads(
 OVERRIDES = OVERRIDE_DATA["overrides"]
 
 
-def target_stress_index(marked_text: str, target: str) -> int | None:
+def target_stress_index(
+    marked_text: str, target: str, *, yo_is_stressed: bool = False
+) -> int | None:
     """Return the zero-based stressed-vowel index for the one target token."""
     target_key = _strip_marks(target)
     tokens = [
@@ -52,10 +53,9 @@ def target_stress_index(marked_text: str, target: str) -> int | None:
 
     # In standard Russian spelling ё normally carries stress without an acute.
     # Count it only when the case explicitly declares that this ё is stressed.
-    if any(case.get("word") == target and case.get("yo_is_stressed") for case in CASES):
-        chars = unicodedata.normalize("NFD", token.lower())
+    if yo_is_stressed:
         vowel_index = 0
-        for char in chars:
+        for char in token.lower():
             if char in VOWELS:
                 if char == "ё":
                     return vowel_index
@@ -113,8 +113,12 @@ def main() -> None:
         text = case.get("context") or word
         raw_marked = stress(text, "ru", fallback=True)
         corrected_marked = _apply_stress_overrides(raw_marked)
-        raw_index = target_stress_index(raw_marked, word)
-        corrected_index = target_stress_index(corrected_marked, word)
+        raw_index = target_stress_index(
+            raw_marked, word, yo_is_stressed=case.get("yo_is_stressed", False)
+        )
+        corrected_index = target_stress_index(
+            corrected_marked, word, yo_is_stressed=case.get("yo_is_stressed", False)
+        )
         expected = case.get("expected_stress")
 
         if case.get("acceptable_stresses") is not None:
