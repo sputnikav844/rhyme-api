@@ -173,7 +173,7 @@ def health():
         "status": "ok",
         "version": app.version,
         "stress_engine": "installed" if available else "unavailable",
-        "wordlist_size": len(_wordlist()),
+        "wordlist_available": FULL_WORDLIST_PATH.exists() or WORDLIST_PATH.exists(),
         "stress_engine_ready": available,
         "stress_engine_note": "Модель загружается при первом запросе анализа ударений.",
     }
