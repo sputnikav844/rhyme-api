@@ -68,19 +68,26 @@ Not included in v1.0:
   116 explicitly stressed and explained pairs: 93 exact, 8 near and 15 negative.
   The pair and line endpoints share one exact/near/none classifier, and line
   checks use the stress mark from the complete line when available.
-- The CI workflow passed on the Gate 2 completion commit: 31 tests passed and
-  the separate evaluator classified all 116 curated cases correctly (116/116).
-  This is a regression-corpus result, not a claim of 100% general Russian rhyme
-  accuracy.
+- Gate 2 CI: 31 tests passed and the evaluator classified all 116 curated cases
+  correctly (116/116). This is a regression-corpus result, not a claim of
+  100% general Russian rhyme accuracy.
 - The legacy `POST /rhyme` schema, phonetic-key generation and `do_rhyme`
   boolean semantics were compared with `main` and restored without changing
   `main`.
+- **Gate 3 — Stress quality: complete.** The stress corpus contains 100 unique
+  unambiguous isolated forms and 22 contextual homograph cases across 11 groups.
+  On the final Gate 3 CI run, 40 tests passed; the raw model scored 99/100
+  (99.0%) on isolated forms, and the model plus reviewed overrides scored
+  100/100 (100%). Context disambiguation scored 16/22 (72.73%) and is reported
+  separately; ambiguous forms were not given unsafe word-level overrides.
+- The only reviewed lexical override is `начался` (zero-based vowel index 2),
+  with a Gramota.ru reference, rationale and regression tests. Override
+  application now preserves model stress marks on all non-overridden words.
 - Full dictionary/index build has completed in CI: 2,342,711 wordforms,
   2,211 exact phonetic keys and 1,673 near buckets.
-- Stress override for `начался` is integrated and covered by unit tests.
-- **Next: Gate 3 — Stress quality.** The stress corpus and evaluator still need
-  expansion to at least 100 reviewed forms, raw-model and post-override metrics,
-  and explicit ambiguity handling. Gates 1, 4 and 5 remain open.
+- Stress corpus references and evaluation instructions are documented in
+  `data/STRESS_CORPUS_SOURCES.md` and README.
+- **Next: Gate 4 — Dictionary/index.** Gates 1, 4 and 5 remain open.
 
 ## Safety boundary
 
