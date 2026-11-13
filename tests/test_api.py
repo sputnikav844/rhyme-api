@@ -135,3 +135,38 @@ def test_search_accepts_explicit_target_stress(monkeypatch):
     })
     assert response.status_code == 200
     assert captured["stress"] == 1
+
+
+
+def test_phonetic_index_builder_creates_exact_and_near_buckets(tmp_path):
+    import gzip
+    from scripts.build_phonetic_index import build
+
+    wordlist = tmp_path / "words.txt.gz"
+    with gzip.open(wordlist, "wt", encoding="utf-8") as stream:
+        stream.write("рад\nбрат\nлюбовь\nкровь\n")
+    output = tmp_path / "index.json.gz"
+    stats = build(wordlist, output)
+    assert stats["indexed_wordforms"] == 4
+    assert output.exists()
+    with gzip.open(output, "rt", encoding="utf-8") as stream:
+        import json
+        index = json.load(stream)
+    assert index["schema_version"] == 1
+    assert index["indexed_wordforms"] == 4
+    assert index["exact"]
+
+
+def test_search_uses_phonetic_index(monkeypatch):
+    monkeypatch.setattr(main, "_phonetic_index", lambda: {
+        "schema_version": 1,
+        "indexed_wordforms": 3,
+        "exact": {"a.t": ["рад", "брат"]},
+        "near": {"a.t": ["рад", "брат", "взгляд"]},
+    })
+    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None, **kwargs: "a.t")
+    response = client.post("/rhyme/search", json={"word": "рад"})
+    assert response.status_code == 200
+    body = response.json()
+    assert body["source"] == "full_phonetic_index"
+    assert {item["word"] for item in body["results"]} == {"брат"}
