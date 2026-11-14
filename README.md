@@ -202,3 +202,30 @@ and data files before upgrading. If a release causes a regression:
 Exact service commands, paths and snapshot procedure must be supplied by the
 target host's deployment runbook. No production rollback or deployment is
 performed by this repository workflow.
+
+## Rhyme assistant for Models and the Telegram "Рифма" tool
+
+`POST /rhyme/assist` is the shared, bounded interface for two clients:
+- a Models tool used while composing song lyrics;
+- the Telegram bot's "Рифма" button/command.
+
+Request example:
+
+```json
+{"word":"любовь","mode":"natural","limit":12,"syllables":2}
+```
+
+Modes:
+- `natural` (default): searches exact and near phonetic matches; the model decides whether any candidate is natural in context.
+- `exact`: searches exact phonetic matches only.
+- `free`: deliberately skips dictionary search and tells the model that rhyme is optional.
+
+Optional `stress` is a zero-based vowel index. Optional `syllables` filters returned candidates by syllable count. `limit` is bounded to 1–50.
+
+The response includes candidate words, match class, syllable count, source, limitations and explicit writing guidance. The endpoint does **not** rank semantic fit, grammatical compatibility, emotional value or singability. Models must reject candidates that make the line unnatural. If no candidate fits, it should change the anchor word or line structure, use a near rhyme, or leave the line unrhymed rather than distort the meaning.
+
+### Shared integration contract
+
+Both clients should call `POST /rhyme/assist`; do not implement a second rhyme algorithm in the bot or prompt. The Models tool should pass the chosen anchor word and selected mode. The Telegram "Рифма" button should pass the user's requested word and mode, then display the returned candidates grouped by `exact` / `near` with syllable counts. The existing legacy `POST /rhyme` contract remains unchanged.
+
+This repository change supplies the API contract only. It does not edit or activate any Telegram/n8n workflow, production service, or VPS configuration. Those require a separate isolated workflow change and explicit deployment approval.
