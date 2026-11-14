@@ -446,13 +446,16 @@ def assist_rhyme(data: RhymeAssistRequest):
     strict = data.mode == "exact"
     found = search_rhymes(SearchRequest(
         word=data.word,
-        limit=data.limit,
+        # Fetch a wider bounded window before syllable filtering so a short
+        # initial slice does not hide matching candidates later in the bucket.
+        limit=50 if data.syllables is not None else data.limit,
         stress=data.stress,
         strict=strict,
     ))
     results = found["results"]
     if data.syllables is not None:
         results = [item for item in results if item["syllables"] == data.syllables]
+    results = results[:data.limit]
 
     return {
         "status": "ok",
