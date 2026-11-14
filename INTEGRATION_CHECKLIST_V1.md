@@ -47,3 +47,14 @@ permission to deploy, merge, or modify a live bot or n8n workflow.
 ## Release boundary
 - No production deployment, VPS changes, bot/n8n edits, branch merge or main
   update is authorized by this checklist.
+
+## Shared Models / Telegram rhyme assistant (post-v1.0, isolated integration)
+- [ ] Models tool calls `POST /rhyme/assist` with `word`, `mode`, `limit` and optional stress/syllable constraints.
+- [ ] Models treats returned words as phonetic candidates only; semantic fit, grammar, emotion and singability are evaluated in context.
+- [ ] Default mode is `natural`; `exact` is opt-in; `free` skips lookup and permits unrhymed lines.
+- [ ] Models performs bounded lookups (normally one or two per line pair) and never forces an unnatural candidate.
+- [ ] Telegram "Рифма" button/command calls the same `POST /rhyme/assist` endpoint and displays exact/near labels plus syllable counts.
+- [ ] Button input validation, empty results, API timeout and API-unavailable fallback are tested in an isolated workflow copy.
+- [ ] Existing `/rhyme` request/response mapping and all unrelated bot routes remain unchanged.
+- [ ] The actual n8n workflow file/export and its target branch are identified before any workflow edit; no live workflow is edited during staging.
+- [ ] Production activation remains a separate step requiring explicit owner approval.
