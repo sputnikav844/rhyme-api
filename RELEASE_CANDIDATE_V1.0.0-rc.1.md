@@ -7,7 +7,7 @@ Status: **release candidate prepared; not deployed and not approved for producti
 - Repository: `sputnikav844/rhyme-api`
 - Branch: `feature/full-russian-rhyme-engine`
 - Tested source commit: `1726928d6d98cf02f48c4e1efa04844bbd6a6cdc`
-- Candidate record is maintained on the feature branch. The final documentation-only commit that records this candidate must also pass CI before Gate 5 is closed.
+- Candidate record is maintained on the feature branch. The candidate-recording commit and its subsequent Gate 5 completion documentation were checked by CI; see the final verification below.
 
 ## Verification
 
@@ -15,8 +15,8 @@ The following GitHub Actions workflows completed successfully on the tested sour
 
 | Workflow | Run | Result |
 |---|---:|---|
-| tests | 43527970387 | success |
-| Stress model evaluation | 43527970352 | success |
+| tests | 43619703442 | success |
+| Stress model evaluation | 43619703418 | success |
 
 The release gates are recorded as follows:
 
@@ -24,7 +24,7 @@ The release gates are recorded as follows:
 - Gate 2 — reviewed rhyme regression corpus: complete (116/116 curated cases).
 - Gate 3 — stress evaluation: complete (raw model 99/100 on isolated forms; model plus reviewed override 100/100; contextual homographs reported separately at 16/22).
 - Gate 4 — deterministic dictionary/index build and search performance: complete.
-- Gate 5 — release documentation, integration checklist, proprietary application-code notice, and CI verification: candidate preparation complete, subject to final CI on the commit that records this document.
+- Gate 5 — release documentation, integration checklist, proprietary application-code notice, and CI verification: complete.
 
 ## Included release documentation
 
