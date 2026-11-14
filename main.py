@@ -69,6 +69,15 @@ class ProsodyRequest(BaseModel):
     text: str = Field(min_length=1, max_length=5000)
 
 
+class RhymeAssistRequest(BaseModel):
+    """Bounded rhyme lookup contract for language models and the Telegram rhyme tool."""
+    word: str = Field(min_length=1, max_length=100)
+    mode: Literal["natural", "exact", "free"] = "natural"
+    limit: int = Field(default=12, ge=1, le=50)
+    stress: int | None = Field(default=None, ge=0)
+    syllables: int | None = Field(default=None, ge=1, le=20)
+
+
 def _clean_word(word: str) -> str:
     found = WORD_RE.findall(word.lower().replace("ё", "ё"))
     if len(found) != 1:
@@ -413,6 +422,57 @@ def search_rhymes(data: SearchRequest):
             "Фонетическое совпадение не гарантирует грамматическую или смысловую уместность.",
         ],
     }
+
+@app.post("/rhyme/assist")
+def assist_rhyme(data: RhymeAssistRequest):
+    """Return bounded phonetic candidates without making artistic decisions.
+
+    This endpoint is shared by the Models composition tool and the Telegram
+    "Рифма" button. Semantic fit, grammar and singability remain model/user decisions.
+    """
+    if data.mode == "free":
+        return {
+            "status": "skipped",
+            "mode": "free",
+            "word": _clean_word(data.word),
+            "results": [],
+            "guidance": [
+                "Рифма необязательна: сначала сохраняйте смысл, естественный русский язык и музыкальность.",
+                "Не подбирайте искусственную рифму только ради совпадения окончаний.",
+                "Если естественная рифма появится сама, её можно использовать без дополнительного поиска.",
+            ],
+        }
+
+    strict = data.mode == "exact"
+    found = search_rhymes(SearchRequest(
+        word=data.word,
+        limit=data.limit,
+        stress=data.stress,
+        strict=strict,
+    ))
+    results = found["results"]
+    if data.syllables is not None:
+        results = [item for item in results if item["syllables"] == data.syllables]
+
+    return {
+        "status": "ok",
+        "mode": data.mode,
+        "word": found["word"],
+        "rhyme_key": found["rhyme_key"],
+        "count": len(results),
+        "total_matches_before_syllable_filter": found["total_matches"],
+        "results": results,
+        "source": found["source"],
+        "guidance": [
+            "Кандидаты подтверждают только фонетическое сходство, а не смысловую или грамматическую уместность.",
+            "Используйте слово-кандидат только если оно естественно продолжает мысль и подходит по грамматике.",
+            "Не меняйте смысл, порядок слов и живую интонацию ради точной рифмы.",
+            "Если подходящего варианта нет, переформулируйте строку или смените опорное слово; допускается неточная рифма или отсутствие рифмы.",
+            "Не вставляйте кандидаты списком в текст песни и не используйте искусственные инверсии или слова-пустышки.",
+        ],
+        "limitations": found["limitations"],
+    }
+
 
 @app.post("/rhyme/check-lines")
 def check_lines(data: LinesRequest):
