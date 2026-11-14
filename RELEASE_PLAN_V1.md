@@ -57,8 +57,10 @@ Not included in v1.0:
 - All CI workflows are green on the release commit.
 - README documents installation, index build, endpoints, examples, limitations,
   licensing and rollback considerations.
-- Tag a versioned release candidate on the feature branch and prepare a separate
-  integration checklist.
+- Record a versioned release candidate in the feature branch and prepare a
+  separate integration checklist. A Git tag is repository-wide rather than
+  branch-scoped, so it is not created under the current feature-branch-only
+  authorization; any repository-wide tag requires separate approval.
 - Stop feature work at this point. Further additions become separately scoped
   post-v1.0 issues.
 
@@ -107,8 +109,8 @@ Not included in v1.0:
 - Stress corpus references and evaluation instructions are documented in
   `data/STRESS_CORPUS_SOURCES.md` and README.
 - **Gate 1 — Compatibility and API behaviour: complete.** The legacy `/rhyme` request/response fields, original key generation and `do_rhyme` boolean semantics remain covered by contract tests and were compared with `main` during development. New endpoint success paths, validation boundaries and edge cases are covered by API tests. On commit `2531638`, the complete `tests` workflow passed, including the API test suite.
-- **Gate 5 — Release candidate: final verification in progress.** README records installation, index build, endpoints, examples, limitations, licensing and rollback considerations. `INTEGRATION_CHECKLIST_V1.md` records the future isolated integration and rollback checks. The repository owner selected a proprietary application-code licence; `LICENSE` now names Ch. Andrew as copyright holder. Dictionary and dependency licences remain separate and unchanged.
-- Both workflows passed on commit `4303e20b78af4bc532b951dd7b44de6216d54cb5` after the licensing decision was documented. The final commits adding the copyright notice and updating the release records require their own green CI before the candidate can be finalized. No release tag has been created.
+- **Gate 5 — Release candidate: final CI verification in progress.** README records installation, index build, endpoints, examples, limitations, licensing and rollback considerations. `INTEGRATION_CHECKLIST_V1.md` records the future isolated integration and rollback checks. The proprietary application-code licence names **Ch. Andrew**. The versioned candidate record is `RELEASE_CANDIDATE_V1.0.0-rc.1.md`. Dictionary and dependency licences remain separate and unchanged.
+- Both workflows passed on the tested source commit `1726928d6d98cf02f48c4e1efa04844bbd6a6cdc` (runs `43527970387` and `43527970352`). The final candidate-recording commit must also pass both workflows before Gate 5 is closed. No Git tag is created because tags are repository-wide refs and outside the current feature-branch-only authorization.
 
 ## Safety boundary
 
