@@ -32,7 +32,7 @@ def test_rhyme_assist_natural_mode_uses_relaxed_search(monkeypatch):
 
     assert response.status_code == 200
     body = response.json()
-    assert captured == {"strict": False, "limit": 7}
+    assert captured == {"strict": False, "limit": 50}
     assert body["mode"] == "natural"
     assert [item["word"] for item in body["results"]] == ["кровь", "вновь"]
     assert "грамматическую уместность" in body["guidance"][0]
