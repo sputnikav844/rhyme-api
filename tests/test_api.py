@@ -352,3 +352,17 @@ def test_assist_filters_syllables_before_result_limit(monkeypatch):
 def test_near_rhyme_requires_three_phonetic_elements():
     assert main._classify_rhyme_keys("a.b", "x.b") == "none"
     assert main._classify_rhyme_keys("a.b.c", "x.b.c") == "near"
+
+
+def test_index_search_does_not_accept_short_near_key(monkeypatch):
+    monkeypatch.setattr(main, "_phonetic_index", lambda: {
+        "schema_version": 1,
+        "indexed_wordforms": 2,
+        "exact": {"a.b": ["кот"]},
+        "near": {"b": ["рот"]},
+    })
+    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None, **kwargs:
+                        "a.b" if word == "кот" else "x.b")
+    response = client.post("/rhyme/search", json={"word": "кот", "strict": False})
+    assert response.status_code == 200
+    assert response.json()["results"] == []
