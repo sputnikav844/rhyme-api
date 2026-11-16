@@ -313,3 +313,42 @@ def test_root_endpoint_reports_service_and_version():
     assert response.status_code == 200
     assert response.json()["service"] == "Russian Rhyme API"
     assert response.json()["version"] == main.app.version
+
+
+def test_prosody_status_accepts_stress_engine_with_lexicon(monkeypatch):
+    monkeypatch.setattr(main, "_mark_stress", lambda text: (text, "stressonnx+lexicon"))
+    response = client.post("/prosody/analyze", json={"text": "молоко"})
+    assert response.status_code == 200
+    assert response.json()["stress_engine"] == "stressonnx+lexicon"
+    assert response.json()["stress_note"] is None
+
+
+def test_prosody_status_reports_unavailable_engine(monkeypatch):
+    monkeypatch.setattr(main, "_mark_stress", lambda text: (text, "unavailable"))
+    response = client.post("/prosody/analyze", json={"text": "молоко"})
+    assert response.status_code == 200
+    assert response.json()["stress_note"] is not None
+
+
+def test_assist_filters_syllables_before_result_limit(monkeypatch):
+    words = ["кот"] + [f"дом{i}" for i in range(55)] + ["подходят"]
+    words = sorted(words, key=lambda word: (2 if word == "подходят" else 1, word))
+    monkeypatch.setattr(main, "_phonetic_index", lambda: {
+        "schema_version": 1,
+        "indexed_wordforms": len(words),
+        "exact": {"target-key": words},
+        "near": {},
+    })
+    monkeypatch.setattr(main, "_rhyme_key", lambda word, stress=None, **kwargs: "target-key")
+    monkeypatch.setattr(main, "_syllables", lambda word: 2 if word == "подходят" else 1)
+
+    response = client.post("/rhyme/assist", json={
+        "word": "кот", "mode": "exact", "limit": 1, "syllables": 2
+    })
+    assert response.status_code == 200
+    assert [item["word"] for item in response.json()["results"]] == ["подходят"]
+
+
+def test_near_rhyme_requires_three_phonetic_elements():
+    assert main._classify_rhyme_keys("a.b", "x.b") == "none"
+    assert main._classify_rhyme_keys("a.b.c", "x.b.c") == "near"
