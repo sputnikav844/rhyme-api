@@ -12,14 +12,17 @@ def test_rhyme_assist_natural_mode_uses_relaxed_search(monkeypatch):
     def fake_search(data):
         captured["strict"] = data.strict
         captured["limit"] = data.limit
+        captured["syllables"] = data.syllables
         return {
             "word": "любовь",
             "rhyme_key": "test",
             "total_matches": 3,
             "results": [
-                {"word": "кровь", "match": "exact", "syllables": 1},
-                {"word": "вновь", "match": "near", "syllables": 1},
-                {"word": "морковь", "match": "near", "syllables": 2},
+                item for item in [
+                    {"word": "кровь", "match": "exact", "syllables": 1},
+                    {"word": "вновь", "match": "near", "syllables": 1},
+                    {"word": "морковь", "match": "near", "syllables": 2},
+                ] if data.syllables is None or item["syllables"] == data.syllables
             ],
             "source": "test_index",
             "limitations": ["phonetic only"],
@@ -32,7 +35,7 @@ def test_rhyme_assist_natural_mode_uses_relaxed_search(monkeypatch):
 
     assert response.status_code == 200
     body = response.json()
-    assert captured == {"strict": False, "limit": 50}
+    assert captured == {"strict": False, "limit": 7, "syllables": 1}
     assert body["mode"] == "natural"
     assert [item["word"] for item in body["results"]] == ["кровь", "вновь"]
     assert "грамматическую уместность" in body["guidance"][0]
