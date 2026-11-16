@@ -331,7 +331,9 @@ def search_rhymes(data: SearchRequest):
     if data.candidates is None and index:
         exact_pool = index.get("exact", {}).get(target_key, [])
         tail = _phonetic_tail(target_key)
-        near_pool = index.get("near", {}).get(tail, []) if not data.strict else []
+        near_pool = (index.get("near", {}).get(tail, [])
+                     if not data.strict and len([part for part in target_key.split(".") if part]) >= 3
+                     else [])
         if data.syllables is not None:
             exact_pool = [word for word in exact_pool if _syllables(word) == data.syllables]
             near_pool = [word for word in near_pool if _syllables(word) == data.syllables]
