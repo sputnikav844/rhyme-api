@@ -58,6 +58,7 @@ class SearchRequest(BaseModel):
     candidates: list[str] | None = Field(default=None, max_length=5000)
     stress: int | None = Field(default=None, ge=0)
     strict: bool = True
+    syllables: int | None = Field(default=None, ge=1, le=20)
 
 
 class LinesRequest(BaseModel):
@@ -240,7 +241,9 @@ def _classify_rhyme_keys(key_a: str, key_b: str, *, allow_near: bool = True) -> 
     """Use one phonetic-key classifier across pair and line endpoints."""
     if key_a == key_b:
         return "exact"
-    if allow_near and _phonetic_tail(key_a) and _phonetic_tail(key_a) == _phonetic_tail(key_b):
+    parts_a = [part for part in key_a.split(".") if part]
+    parts_b = [part for part in key_b.split(".") if part]
+    if allow_near and len(parts_a) >= 3 and len(parts_b) >= 3 and parts_a[-3:] == parts_b[-3:]:
         return "near"
     return "none"
 
@@ -329,6 +332,9 @@ def search_rhymes(data: SearchRequest):
         exact_pool = index.get("exact", {}).get(target_key, [])
         tail = _phonetic_tail(target_key)
         near_pool = index.get("near", {}).get(tail, []) if not data.strict else []
+        if data.syllables is not None:
+            exact_pool = [word for word in exact_pool if _syllables(word) == data.syllables]
+            near_pool = [word for word in near_pool if _syllables(word) == data.syllables]
         results = []
 
         for candidate in exact_pool:
@@ -390,7 +396,12 @@ def search_rhymes(data: SearchRequest):
             try:
                 key = _rhyme_key(candidate, infer=False)
                 exact = key == target_key
-                near = not exact and not data.strict and _phonetic_tail(key) == _phonetic_tail(target_key)
+                near = (not exact and not data.strict
+                        and len([part for part in key.split(".") if part]) >= 3
+                        and len([part for part in target_key.split(".") if part]) >= 3
+                        and _phonetic_tail(key) == _phonetic_tail(target_key))
+                if data.syllables is not None and _syllables(candidate) != data.syllables:
+                    continue
                 if exact or near:
                     results.append({
                         "word": candidate,
@@ -448,14 +459,12 @@ def assist_rhyme(data: RhymeAssistRequest):
         word=data.word,
         # Fetch a wider bounded window before syllable filtering so a short
         # initial slice does not hide matching candidates later in the bucket.
-        limit=50 if data.syllables is not None else data.limit,
+        limit=data.limit,
         stress=data.stress,
         strict=strict,
+        syllables=data.syllables,
     ))
     results = found["results"]
-    if data.syllables is not None:
-        results = [item for item in results if item["syllables"] == data.syllables]
-    results = results[:data.limit]
 
     return {
         "status": "ok",
@@ -533,5 +542,5 @@ def analyze_prosody(data: ProsodyRequest):
         "stress_engine": engine,
         "total_syllables": sum(item["syllables"] for item in words),
         "words": words,
-        "stress_note": None if engine == "stressonnx" else "Движок ударений недоступен: позиции ударений не определены.",
+        "stress_note": None if engine in {"stressonnx", "stressonnx+lexicon"} else "Движок ударений недоступен: позиции ударений не определены.",
     }
