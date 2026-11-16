@@ -351,7 +351,7 @@ def test_assist_filters_syllables_before_result_limit(monkeypatch):
 
 def test_near_rhyme_requires_three_phonetic_elements():
     assert main._classify_rhyme_keys("a.b", "x.b") == "none"
-    assert main._classify_rhyme_keys("a.b.c", "x.b.c") == "near"
+    assert main._classify_rhyme_keys("a.b.c.d", "x.b.c.d") == "near"
 
 
 def test_index_search_does_not_accept_short_near_key(monkeypatch):
