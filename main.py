@@ -459,8 +459,7 @@ def assist_rhyme(data: RhymeAssistRequest):
     strict = data.mode == "exact"
     found = search_rhymes(SearchRequest(
         word=data.word,
-        # Fetch a wider bounded window before syllable filtering so a short
-        # initial slice does not hide matching candidates later in the bucket.
+        # Apply syllable filtering inside the search before enforcing the result limit.
         limit=data.limit,
         stress=data.stress,
         strict=strict,
